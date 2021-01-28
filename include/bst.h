@@ -66,39 +66,24 @@ public:
 
 	_iterator &operator++()
 	{
-		node *head = current;
-		while (head->_parent != nullptr)
-			head = head->_parent;
-
-		//check if the node is the greatest one
-		if (current->_right == nullptr && head->_key < current->_key)
-		{
-			current = nullptr;
-			return *this;
-		}
 
 		if (current->_right == nullptr)
 		{
-			if (current->_key > current->_parent->_key)
-			{
-				while (current->_parent != nullptr && current->_key > current->_parent->_key)
-					current = current->_parent;
-				current=current->_parent;//check
-			}
-			else
-			{
+			while ( current->_parent!=nullptr &&  current->_key > current->_parent->_key){
 				current = current->_parent;
 			}
+			current = current->_parent;
 		}
-		else
+		//se ci sono nodi a destra ci sono sicuramente altri nodi su cui iterare
+		else //(current->_right != nullptr)
 		{
 			current = current->_right;
 			while (current->_left != nullptr)
 				current = current->_left;
 		}
 
-		// current = current->_right;
 		return *this;
+
 	}
 
 	_iterator operator++(int)
