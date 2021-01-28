@@ -53,7 +53,8 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
     return std::make_pair(iterator{nullptr}, false);
 }
 
-template <typename K, typename V>
+
+ /* template <typename K, typename V>
 std::pair<typename bst<K, V>::iterator, bool> insert(std::pair<const K, V>&& x)
 {
     node *current = _root;
@@ -92,4 +93,5 @@ std::pair<typename bst<K, V>::iterator, bool> insert(std::pair<const K, V>&& x)
     }
     return std::make_pair(iterator{nullptr}, false);
 }
-
+ */
+ 

@@ -40,7 +40,7 @@ public:
 	void print_root();
 
 	std::pair<iterator, bool> insert(const std::pair<const K, V> &x);
-	std::pair<iterator, bool> insert(std::pair<const K, V>&& x);
+//	std::pair<iterator, bool> insert(std::pair<const K, V>&& x);
 
 
 };
