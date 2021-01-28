@@ -26,11 +26,11 @@ public: //make it private
 	using iterator = _iterator<K>;
 	using const_iterator = _iterator<const K>;
 
-	iterator begin() noexcept { return iterator{_root}; }
-	const_iterator begin() const noexcept { return const_iterator{_root}; }
+	iterator begin() noexcept;// { return iterator{_root}; }
+	const_iterator begin() const noexcept; //{ return const_iterator{_root}; }
 
-	iterator end() noexcept { return iterator{nullptr}; }
-	const_iterator end() const noexcept { return const_iterator{nullptr}; }
+	iterator end() noexcept;// { return iterator{nullptr}; }
+	const_iterator end() const noexcept;// { return const_iterator{nullptr}; }
 
 	node *_root;
 
@@ -40,7 +40,7 @@ public:
 	void print_root();
 
 	std::pair<iterator, bool> insert(const std::pair<const K, V> &x);
-//	std::pair<iterator, bool> insert(std::pair<const K, V>&& x);
+	std::pair<iterator, bool> insert(std::pair<const K, V>&& x);
 
 
 };
@@ -67,6 +67,8 @@ public:
 
 	_iterator &operator++()
 	{
+		
+
 		current = current->_right;
 		return *this;
 	}

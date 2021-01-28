@@ -2,7 +2,6 @@
 
 template <typename K, typename V>
 bst<K, V>::bst() : _root{nullptr} {};
-// bst<K, V>::bst() = default;
 
 template <typename K, typename V>
 bst<K, V>::bst(node &root) : _root{&root} {}
@@ -12,6 +11,32 @@ void bst<K, V>::print_root()
 {
     std::cout << "root key " << _root->_key << "\nroot value " << _root->_value << std::endl;
 }
+
+template <typename K, typename V>
+typename bst<K, V>::iterator bst<K, V>::begin() noexcept
+{
+    node *current = _root;
+    while (current->_left != nullptr)
+        current = current->_left;
+
+    return iterator{current};
+}
+
+template <typename K, typename V>
+typename bst<K, V>::const_iterator bst<K, V>::begin() const noexcept
+{
+    node *current = _root;
+    while (current->_left != nullptr)
+        current = current->_left;
+
+    return const_iterator{current};
+}
+
+template <typename K, typename V>
+typename bst<K, V>::iterator bst<K, V>::end() noexcept { return iterator{nullptr}; }
+
+template <typename K, typename V>
+typename bst<K, V>::const_iterator bst<K, V>::end() const noexcept { return const_iterator{nullptr}; }
 
 template <typename K, typename V>
 std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<const K, V> &x)
@@ -53,9 +78,8 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
     return std::make_pair(iterator{nullptr}, false);
 }
 
-
- /* template <typename K, typename V>
-std::pair<typename bst<K, V>::iterator, bool> insert(std::pair<const K, V>&& x)
+template <typename K, typename V>
+std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const K, V> &&x)
 {
     node *current = _root;
     if (current == nullptr)
@@ -93,5 +117,3 @@ std::pair<typename bst<K, V>::iterator, bool> insert(std::pair<const K, V>&& x)
     }
     return std::make_pair(iterator{nullptr}, false);
 }
- */
- 
