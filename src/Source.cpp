@@ -21,13 +21,17 @@ int main()
 
 
 
-
 	for (auto a : tree)
 	{
 		std::cout << a << " ";
 	}
 
 	std::cout << std::endl;
+
+
+	// test find
+	int qualcosa = *(tree.find(10));
+	std::cout<<"qualcosa " << qualcosa<<std::endl;
 
 	std::cout << "----- End Program -----" << std::endl;
 	return 0;

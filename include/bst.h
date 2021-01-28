@@ -42,6 +42,17 @@ public:
 
 	std::pair<iterator, bool> insert(const std::pair<const K, V> &x);
 	std::pair<iterator, bool> insert(std::pair<const K, V> &&x);
+	iterator find(const K &x)
+	{
+
+		// _iterator<int> uk = (*this).end();
+		for (_iterator<int> it = (*this).begin(); it != (*this).end(); it++)
+		{
+			if((*it)==x) return it;
+		}
+
+		return _iterator<K>{nullptr};
+	}
 };
 
 template <typename K, typename V>
@@ -69,13 +80,14 @@ public:
 
 		if (current->_right == nullptr)
 		{
-			while ( current->_parent!=nullptr &&  current->_key > current->_parent->_key){
+			while (current->_parent != nullptr && current->_key > current->_parent->_key)
+			{
 				current = current->_parent;
 			}
 			current = current->_parent;
 		}
 		//se ci sono nodi a destra ci sono sicuramente altri nodi su cui iterare
-		else //(current->_right != nullptr)
+		else
 		{
 			current = current->_right;
 			while (current->_left != nullptr)
@@ -83,7 +95,6 @@ public:
 		}
 
 		return *this;
-
 	}
 
 	_iterator operator++(int)
@@ -93,10 +104,9 @@ public:
 		return tmp;
 	}
 
-	friend bool operator==(_iterator &a, _iterator &b)
-	{
-		return a.current == b.current;
-	}
+	friend bool operator==(_iterator &a, _iterator &b)	{ return a.current == b.current; }
+	friend bool operator==(_iterator &a, _iterator &&b)	{ return a.current == b.current; }
 
 	friend bool operator!=(_iterator &a, _iterator &b) { return !(a == b); }
+	friend bool operator!=(_iterator &a, _iterator &&b) { return !(a == b); }
 };
