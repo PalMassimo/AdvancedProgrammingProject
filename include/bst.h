@@ -66,12 +66,11 @@ public:
 
 	_iterator &operator++()
 	{
-		//check if the node is the greatest one
 		node *head = current;
 		while (head->_parent != nullptr)
 			head = head->_parent;
-		std::cout << "key head" << head->_key << std::endl;
 
+		//check if the node is the greatest one
 		if (current->_right == nullptr && head->_key < current->_key)
 		{
 			current = nullptr;
@@ -84,6 +83,7 @@ public:
 			{
 				while (current->_parent != nullptr && current->_key > current->_parent->_key)
 					current = current->_parent;
+				current=current->_parent;//check
 			}
 			else
 			{
