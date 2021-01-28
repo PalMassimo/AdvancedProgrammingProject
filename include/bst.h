@@ -11,14 +11,15 @@ class bst
 public: //make it private
 	struct node
 	{
+		node *_parent;
 		node *_right;
 		node *_left;
 		K _key;
 		V _value;
 
 		node() = default;
-		node(K key, V value) : _right{nullptr}, _left{nullptr}, _key{key}, _value{value} {};
-		node(node &right_node, node &left_node, K key, V value) : _right{&right_node}, _left{&left_node}, _key{key}, _value{value} {};
+		node(K key, V value) : _parent{nullptr}, _right{nullptr}, _left{nullptr}, _key{key}, _value{value} {};
+		node(node &parent_node, node &right_node, node &left_node, K key, V value) : _parent{parent_node}, _right{&right_node}, _left{&left_node}, _key{key}, _value{value} {};
 	};
 
 	template <typename O>
@@ -26,11 +27,11 @@ public: //make it private
 	using iterator = _iterator<K>;
 	using const_iterator = _iterator<const K>;
 
-	iterator begin() noexcept;// { return iterator{_root}; }
+	iterator begin() noexcept;			   // { return iterator{_root}; }
 	const_iterator begin() const noexcept; //{ return const_iterator{_root}; }
 
-	iterator end() noexcept;// { return iterator{nullptr}; }
-	const_iterator end() const noexcept;// { return const_iterator{nullptr}; }
+	iterator end() noexcept;			 // { return iterator{nullptr}; }
+	const_iterator end() const noexcept; // { return const_iterator{nullptr}; }
 
 	node *_root;
 
@@ -40,9 +41,7 @@ public:
 	void print_root();
 
 	std::pair<iterator, bool> insert(const std::pair<const K, V> &x);
-	std::pair<iterator, bool> insert(std::pair<const K, V>&& x);
-
-
+	std::pair<iterator, bool> insert(std::pair<const K, V> &&x);
 };
 
 template <typename K, typename V>
@@ -67,9 +66,35 @@ public:
 
 	_iterator &operator++()
 	{
-		
+		//check if the node is the greatest one
+		if (current->_right == nullptr && _root->_key < current->_key)
+		{
+			current = nullptr;
+		}
 
-		current = current->_right;
+		if (current->_right == nullptr)
+		{
+			if (current->_key > current->_parent->_key)
+			{
+				while (current->_parent != nullptr && current->_key > current->_parent->_key)
+					current = current->_parent;
+			}
+			else
+			{
+				current = current->_parent;
+			}
+			// delete this?
+			// while (current->_parent != nullptr && current->_key > current->_parent->_key)
+			// 	current = current->_parent;
+		}
+		else
+		{
+			current = current->_right;
+			while (current->_left != nullptr)
+				current = current->_left;
+		}
+
+		// current = current->_right;
 		return *this;
 	}
 
@@ -80,7 +105,7 @@ public:
 		return tmp;
 	}
 
-friend bool operator==(_iterator &a, _iterator &b)
+	friend bool operator==(_iterator &a, _iterator &b)
 	{
 		return a.current == b.current;
 	}
