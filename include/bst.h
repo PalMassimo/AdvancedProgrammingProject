@@ -17,7 +17,7 @@ public: //make it private
 		V _value;
 
 		node() = default;
-		node(K key, V value) : _key{key}, _value{value} {};
+		node(K key, V value) : _right{nullptr}, _left{nullptr}, _key{key}, _value{value} {};
 		node(node &right_node, node &left_node, K key, V value) : _right{&right_node}, _left{&left_node}, _key{key}, _value{value} {};
 	};
 
@@ -39,44 +39,10 @@ public:
 	bst(node &root);
 	void print_root();
 
+	std::pair<iterator, bool> insert(const std::pair<const K, V> &x);
+	std::pair<iterator, bool> insert(std::pair<const K, V>&& x);
 
-	std::pair<iterator, bool> insert(const std::pair<const K, V> &x){
-		node* current = _root;
-		if(_root == nullptr){
-			_root = new node(x.first,x.second);
-			std::pair<iterator,bool> p{iterator{_root},true};
-			return p;
-		}else{
-			while (!current)
-			{
-				if(current->_key==x.first){
-					std::pair<iterator,bool> p{iterator{nullptr},false};
-					return p;
-				}
-				else if(current->_key > x.first){
-					if(current ->_right != nullptr){
-						current->_right = new node(x.first,x.second);
-						std::pair<iterator,bool> p{iterator{current->_right},true};
-						return p;
-					}
-					current=current->_right;
-				}
-				else{
-					if(current ->_left != nullptr){
-						current->_left = new node(x.first,x.second);
-						std::pair<iterator,bool> p{iterator{current->_left},true};
-						return p;
-					}
-					current=current->_left;
-				}
-			}
-			
-			
-		}
 
-	};
-
-	//std::pair<iterator, bool> insert(std::pair<const K, V> &&x){};
 };
 
 template <typename K, typename V>
@@ -112,7 +78,7 @@ public:
 		return tmp;
 	}
 
-	friend bool operator==(_iterator &a, _iterator &b)
+friend bool operator==(_iterator &a, _iterator &b)
 	{
 		return a.current == b.current;
 	}
