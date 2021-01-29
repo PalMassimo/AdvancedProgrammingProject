@@ -45,6 +45,7 @@ public:
 
 	std::pair<iterator, bool> insert(const std::pair<const K, V> &x);
 	std::pair<iterator, bool> insert(std::pair<const K, V> &&x);
+
 	iterator find(const K &x)
 	{
 		for (_iterator<int> it = (*this).begin(); it != (*this).end(); it++)
@@ -77,15 +78,18 @@ public:
 
 				if (it.current->_left == nullptr && it.current->_right == nullptr)
 				{
-					//delete
+					_root=nullptr;
 				}
 				else if (it.current->_left == nullptr)
 				{
 					it.current->_right->_parent = nullptr;
+					_root=it.current->_right;
 				}
 				else if (it.current->_right == nullptr)
 				{
 					it.current->_left->_parent = nullptr;
+					_root=it.current->_left;
+
 				}
 				else
 				{
@@ -195,9 +199,18 @@ public:
 		{
 			auto a = *it;
 			++it;
-			std::cout << "node deleted with key " << a << std::endl;
 			erase(a);
 		}
+	}
+
+	V& operator[](const K& x){
+		return find(x).current->_value;
+	}
+
+	//value_type& operator[](key_type&& x); //TODO
+
+	void balance(){
+		
 	}
 };
 
