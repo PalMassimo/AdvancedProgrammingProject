@@ -29,9 +29,11 @@ public: //make it private
 
 	iterator begin() noexcept;			   // { return iterator{_root}; }
 	const_iterator begin() const noexcept; //{ return const_iterator{_root}; }
+	//const_iterator cbegin() const noexcept;
 
 	iterator end() noexcept;			 // { return iterator{nullptr}; }
 	const_iterator end() const noexcept; // { return const_iterator{nullptr}; }
+	//const_iterator cend() const noexcept;
 
 	node *_root;
 
@@ -48,10 +50,20 @@ public:
 		// _iterator<int> uk = (*this).end();
 		for (_iterator<int> it = (*this).begin(); it != (*this).end(); it++)
 		{
-			if((*it)==x) return it;
+			if ((*it) == x)
+				return it;
 		}
 
 		return _iterator<K>{nullptr};
+	}
+
+	template <class... Types>
+	std::pair<iterator, bool> emplace(Types &&...args){
+		return (*this).insert(std::forward<Types>(args)...);
+	}
+
+	void clear(){
+		
 	}
 };
 
@@ -104,8 +116,8 @@ public:
 		return tmp;
 	}
 
-	friend bool operator==(_iterator &a, _iterator &b)	{ return a.current == b.current; }
-	friend bool operator==(_iterator &a, _iterator &&b)	{ return a.current == b.current; }
+	friend bool operator==(_iterator &a, _iterator &b) { return a.current == b.current; }
+	friend bool operator==(_iterator &a, _iterator &&b) { return a.current == b.current; }
 
 	friend bool operator!=(_iterator &a, _iterator &b) { return !(a == b); }
 	friend bool operator!=(_iterator &a, _iterator &&b) { return !(a == b); }
