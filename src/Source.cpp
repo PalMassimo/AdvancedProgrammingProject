@@ -21,32 +21,9 @@ int main()
 	tree.insert(std::make_pair(13, 102));
 	tree.insert(std::make_pair(4, 4));
 
-	std::cout << tree[13] << std::endl;
+	tree.balance();
 
-/* 	for (auto a : tree)
-	{
-		std::cout << a << " ";
-	}
-
-	std::cout << std::endl;
-
-	
-	tree.erase(8);
-	for (auto a : tree)
-	{
-		std::cout << a << " ";
-	}
-
-	std::cout << std::endl;
-
-	tree.clear();
-	std::cout << "empty tree" << std::endl;
-	for (auto a : tree)
-	{
-		std::cout << a << " ";
-	}
-	std::cout << std::endl;
- */
+	std::cout << "Tree: " << tree << std::endl;
 	std::cout << "----- End Program -----" << std::endl;
 	return 0;
 };
