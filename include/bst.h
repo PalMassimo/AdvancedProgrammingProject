@@ -20,6 +20,7 @@ public: //make it private
 		node() = default;
 		node(K key, V value) : _parent{nullptr}, _right{nullptr}, _left{nullptr}, _key{key}, _value{value} {};
 		node(node &parent_node, node &right_node, node &left_node, K key, V value) : _parent{parent_node}, _right{&right_node}, _left{&left_node}, _key{key}, _value{value} {};
+		~node() = default;
 	};
 
 	template <typename O>
@@ -46,8 +47,6 @@ public:
 	std::pair<iterator, bool> insert(std::pair<const K, V> &&x);
 	iterator find(const K &x)
 	{
-
-		// _iterator<int> uk = (*this).end();
 		for (_iterator<int> it = (*this).begin(); it != (*this).end(); it++)
 		{
 			if ((*it) == x)
@@ -58,12 +57,147 @@ public:
 	}
 
 	template <class... Types>
-	std::pair<iterator, bool> emplace(Types &&...args){
+	std::pair<iterator, bool> emplace(Types &&...args)
+	{
 		return (*this).insert(std::forward<Types>(args)...);
 	}
 
-	void clear(){
-		
+	void erase(const K &x)
+	{
+
+		iterator it = find(x);
+
+		if (it == end())
+			return;
+		else
+		{
+			//node is the root
+			if (it.current->_parent == nullptr)
+			{
+
+				if (it.current->_left == nullptr && it.current->_right == nullptr)
+				{
+					//delete
+				}
+				else if (it.current->_left == nullptr)
+				{
+					it.current->_right->_parent = nullptr;
+				}
+				else if (it.current->_right == nullptr)
+				{
+					it.current->_left->_parent = nullptr;
+				}
+				else
+				{
+					node *rightest_child = it.current->_left;
+
+					while (rightest_child->_right != nullptr)
+						rightest_child = rightest_child->_right;
+					rightest_child->_right = it.current->_right;
+
+					it.current->_right->_parent = rightest_child;
+					it.current->_left->_parent = nullptr;
+				}
+				return;
+			}
+
+			//node has no children
+			if (it.current->_right == nullptr && it.current->_left == nullptr)
+			{
+				(it.current == it.current->_parent->_right) ? it.current->_parent->_right = nullptr : it.current->_parent->_left = nullptr;
+				delete it.current;
+				return;
+			}
+
+			//node having only left child and it is the left child of the parent
+			if (it.current->_left != nullptr && it.current->_right == nullptr && it.current == it.current->_parent->_left)
+			{
+				it.current->_parent->_left = it.current->_left;
+				it.current->_left->_parent = it.current->_parent;
+				delete it.current;
+				return;
+			}
+
+			//node having only right child and it is the left child of the parent
+			if (it.current->_left == nullptr && it.current->_right != nullptr && it.current == it.current->_parent->_left)
+			{
+				it.current->_parent->_left = it.current->_right;
+				it.current->_right->_parent = it.current->_parent;
+				delete it.current;
+				return;
+			}
+
+			//node having only right child and it is the right child of the parent
+			if (it.current->_left == nullptr && it.current->_right != nullptr && it.current == it.current->_parent->_right)
+			{
+				it.current->_parent->_right = it.current->_right;
+				it.current->_right->_parent = it.current->_parent;
+				delete it.current;
+				return;
+			}
+
+			//node having only left child and it is the right child of the parent
+			if (it.current->_left != nullptr && it.current->_right == nullptr && it.current == it.current->_parent->_right)
+			{
+				it.current->_parent->_right = it.current->_left;
+				it.current->_left->_parent = it.current->_parent;
+				delete it.current;
+				return;
+			}
+
+			//the node has two child and it is the right child of parent
+			if (it.current->_right != nullptr && it.current->_left != nullptr && it.current == it.current->_parent->_right)
+			{
+				//colleghiamo il figlio di destra del parent al figlio di sinistra del nodo corrente
+				it.current->_parent->_right = it.current->_left;
+				it.current->_left->_parent = it.current->_parent;
+
+				node *rightest_child = it.current->_left;
+
+				while (rightest_child->_right != nullptr)
+					rightest_child = rightest_child->_right;
+				rightest_child->_right = it.current->_right;
+
+				it.current->_right->_parent = rightest_child;
+
+				delete it.current;
+				return;
+			}
+
+			//the node has two child and it is the left child of parent
+			if (it.current->_right != nullptr && it.current->_left != nullptr && it.current == it.current->_parent->_left)
+			{
+				//colleghiamo il figlio di destra del parent al figlio di sinistra del nodo corrente
+				it.current->_parent->_left = it.current->_left;
+				it.current->_left->_parent = it.current->_parent;
+
+				node *rightest_child = it.current->_left;
+
+				while (rightest_child->_right != nullptr)
+					rightest_child = rightest_child->_right;
+				rightest_child->_right = it.current->_right;
+
+				it.current->_right->_parent = rightest_child;
+
+				delete it.current;
+				return;
+			}
+
+			std::cout << "if this point is reached at least one case is missing" << std::endl;
+			return;
+		}
+	}
+
+	void clear()
+	{
+
+		for (_iterator<int> it = (*this).begin(); it != (*this).end();)
+		{
+			auto a = *it;
+			++it;
+			std::cout << "node deleted with key " << a << std::endl;
+			erase(a);
+		}
 	}
 };
 
@@ -71,7 +205,7 @@ template <typename K, typename V>
 template <typename O>
 class bst<K, V>::_iterator
 {
-
+public:
 	using node = typename bst<K, V>::node;
 	node *current;
 
