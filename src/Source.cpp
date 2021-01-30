@@ -7,25 +7,22 @@ int main()
 {
 	std::cout << "----- Start Program -----" << std::endl;
 
-	bst<int, int>::node head{8, 8};
-	bst<int, int> tree{head};
-	bst<int, int> tree2{};
+	bst<int, int> tree{};
 
+	std::vector<int> v{8, 3, 10, 6, 1, 14, 7, 4, 13};
+	for (int i = 0; i < v.size(); ++i){
+		tree.insert(std::make_pair(v.at(i), v.at(i)));
+	}
+	std::cout << "Tree: " << tree << std::endl;
 
-	tree2.insert(std::make_pair(3, 3));
-	// tree2.insert(std::make_pair(10, 10));
+	std::cout << "Stop the cows:  " << std::endl;
 
-	// tree.insert(std::make_pair(6, 6));
-	// tree.insert(std::make_pair(1, 1));
-	// tree.insert(std::make_pair(14, 14));
+	tree.erase(1);
+	// tree.clear();
 
-	// tree.insert(std::make_pair(7, 7));
-	// tree.insert(std::make_pair(4, 4));
-	// tree.insert(std::make_pair(13, 13));
-
-	// std::cout << "Tree: " << tree << std::endl;
+	std::cout << "Tree: " << tree << std::endl;
 	std::cout << "----- End Program -----" << std::endl;
-	
+
 	// tree.balance();
 	return 0;
 };

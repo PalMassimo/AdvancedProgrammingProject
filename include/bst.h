@@ -24,7 +24,6 @@ public: //make it private
 		V _value;
 
 		node() = default;
-		node(node& another){std::copy(another);}
 		//node(K key, V value) : _parent{nullptr}, _right{nullptr}, _left{nullptr}, _key{key}, _value{value} {};
 		node(K key, V value) : _key{key}, _value{value}
 		{
@@ -37,7 +36,7 @@ public: //make it private
 																					 _right{std::make_unique<node>(right_node)},
 																					 _left{std::make_unique<node>(left_node)},
 																					 _key{key}, _value{value} {};
-		~node() = default;
+		~node() {};
 	};
 
 	std::unique_ptr<node> _root;
@@ -56,8 +55,8 @@ public: //make it private
 	//const_iterator cend() const noexcept;
 
 public:
-	bst();
-	bst(node root);
+	bst() = default;
+	bst(node& root);
 	~bst() = default;
 
 	void print_root();
@@ -81,7 +80,7 @@ public:
 
 	friend std::ostream &operator<<(std::ostream &os, const bst &x)
 	{
-		os << "[ ";
+		os << "[";
 		for (auto a : x)
 			os << " " << a;
 		os << " ]\n";
