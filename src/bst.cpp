@@ -1,21 +1,26 @@
 #include "../include/bst.h"
 
 template <typename K, typename V>
-bst<K, V>::bst() : _root{nullptr} {};
+bst<K, V>::bst() {_root.reset(nullptr);}
+
+// template <typename K, typename V>
+// bst<K, V>::bst(node &root) : _root{&root} {}
 
 template <typename K, typename V>
-bst<K, V>::bst(node &root) : _root{&root} {}
+//bst<K, V>::bst(node &root) : _root{new node(root)} {}
+bst<K, V>::bst(node &root) { _root=std::make_unique<node>(root); }
+
 
 template <typename K, typename V>
 void bst<K, V>::print_root()
 {
-    std::cout << "root key " << _root->_key << "\nroot value " << _root->_value << std::endl;
+    std::cout << "root key " << _root.get()->_key << "\nroot value " << _root.get()->_value << std::endl;
 }
 
 template <typename K, typename V>
 typename bst<K, V>::iterator bst<K, V>::begin() noexcept
 {
-    node *current = _root;
+    node *current = _root.get();
     while (current->_left != nullptr)
         current = current->_left;
 
@@ -25,7 +30,7 @@ typename bst<K, V>::iterator bst<K, V>::begin() noexcept
 template <typename K, typename V>
 typename bst<K, V>::const_iterator bst<K, V>::begin() const noexcept
 {
-    node *current = _root;
+    node *current = _root.get();
     while (current->_left != nullptr)
         current = current->_left;
 
@@ -41,12 +46,12 @@ typename bst<K, V>::const_iterator bst<K, V>::end() const noexcept { return cons
 template <typename K, typename V>
 std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<const K, V> &x)
 {
-    node *current = _root;
+    node *current = _root.get();
     if (current == nullptr)
     {
-        _root = new node(x.first, x.second);
-        _root->_parent = nullptr;
-        return std::make_pair(iterator{_root}, true);
+        _root.reset(new node(x.first, x.second));
+        _root.get()->_parent = nullptr;
+        return std::make_pair(iterator{_root.get()}, true);
     }
     else
     {
@@ -84,12 +89,12 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
 template <typename K, typename V>
 std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const K, V> &&x)
 {
-    node *current = _root;
+    node *current = _root.get();
     if (current == nullptr)
     {
-        _root = new node(x.first, x.second);
-        _root->_parent = nullptr;
-        return std::make_pair(iterator{_root}, true);
+        _root.reset(new node(x.first, x.second));
+        _root.get()->_parent = nullptr;
+        return std::make_pair(iterator{_root.get()}, true);
     }
     else
     {
@@ -140,17 +145,17 @@ void bst<K, V>::erase(const K &x)
 
             if (it.current->_left == nullptr && it.current->_right == nullptr)
             {
-                _root = nullptr;
+                _root.reset(nullptr);
             }
             else if (it.current->_left == nullptr)
             {
                 it.current->_right->_parent = nullptr;
-                _root = it.current->_right;
+                _root.reset(it.current->_right);
             }
             else if (it.current->_right == nullptr)
             {
                 it.current->_left->_parent = nullptr;
-                _root = it.current->_left;
+                _root.reset(it.current->_left);
             }
             else
             {
@@ -274,5 +279,3 @@ typename bst<K, V>::iterator bst<K, V>::find(const K &x)
 
     return _iterator<K>{nullptr};
 }
-
-

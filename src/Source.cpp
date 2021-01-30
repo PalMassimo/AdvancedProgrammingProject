@@ -18,12 +18,12 @@ int main()
 	tree.insert(std::make_pair(14, 14));
 
 	tree.insert(std::make_pair(7, 7));
-	tree.insert(std::make_pair(13, 102));
 	tree.insert(std::make_pair(4, 4));
 
-	// tree.balance();
 
 	std::cout << "Tree: " << tree << std::endl;
 	std::cout << "----- End Program -----" << std::endl;
+	
+	// tree.balance();
 	return 0;
 };
