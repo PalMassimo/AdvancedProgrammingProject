@@ -21,7 +21,7 @@ int main()
 	tree.insert(std::make_pair(13, 102));
 	tree.insert(std::make_pair(4, 4));
 
-	tree.balance();
+	// tree.balance();
 
 	std::cout << "Tree: " << tree << std::endl;
 	std::cout << "----- End Program -----" << std::endl;
