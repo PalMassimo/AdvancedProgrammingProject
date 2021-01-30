@@ -13,33 +13,35 @@ class bst
 public: //make it private
 	struct node
 	{
-		std::unique_ptr<node> _parent;
-		std::unique_ptr<node> _right;
-		std::unique_ptr<node> _left;
-		// node *_parent;
-		// node *_right;
-		// node *_left;
+		std::shared_ptr<node> _parent;
+		std::shared_ptr<node> _right;
+		std::shared_ptr<node> _left;
 
 		K _key;
 		V _value;
 
 		node() = default;
-		//node(K key, V value) : _parent{nullptr}, _right{nullptr}, _left{nullptr}, _key{key}, _value{value} {};
 		node(K key, V value) : _key{key}, _value{value}
 		{
-			_parent.reset(nullptr);
-			_left.reset(nullptr);
-			_right.reset(nullptr);
+			_parent.reset();
+			_left.reset();
+			_right.reset();
 		};
 		// node(node &parent_node, node &right_node, node &left_node, K key, V value) : _parent{&parent_node}, _right{&right_node}, _left{&left_node}, _key{key}, _value{value} {};
-		node(node &parent_node, node &right_node, node &left_node, K key, V value) : _parent{std::make_unique<node>(parent_node)},
-																					 _right{std::make_unique<node>(right_node)},
-																					 _left{std::make_unique<node>(left_node)},
-																					 _key{key}, _value{value} {};
-		~node() {};
+		// node(node &parent_node, node &right_node, node &left_node, K key, V value) : _parent{std::make_shared<node>(parent_node)},
+		// 																			 _right{std::make_shared<node>(right_node)},
+		// 																			 _left{std::make_shared<node>(left_node)},
+		// 																			 _key{key}, _value{value} {};
+		node(node &parent_node, node &right_node, node &left_node, K key, V value):  _key{key}, _value{value}
+		{
+			_parent.reset(parent_node);
+			_right.reset(right_node);
+			_left.reset(left_node);
+		}
+		~node()=default;
 	};
 
-	std::unique_ptr<node> _root;
+	std::shared_ptr<node> _root;
 
 	template <typename O>
 	class _iterator;
@@ -56,8 +58,8 @@ public: //make it private
 
 public:
 	bst() = default;
-	bst(node& root);
-	~bst() = default;
+	bst(node &root);
+	~bst()=default;
 
 	void print_root();
 
