@@ -42,7 +42,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
     if (current == nullptr)
     {
         _root.reset(new node(x.first, x.second));
-        _root.get()->_parent.reset();
+        _root.get()->_parent = nullptr;
         return std::make_pair(iterator{_root.get()}, true);
     }
     else
@@ -58,7 +58,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
                 if (current->_left.get() == nullptr)
                 {
                     current->_left.reset(new node(x.first, x.second));
-                    current->_left.get()->_parent.reset(current);
+                    current->_left.get()->_parent = current;
                     return std::make_pair(iterator{current->_left.get()}, true);
                 }
                 current = current->_left.get();
@@ -68,7 +68,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
                 if (current->_right.get() == nullptr)
                 {
                     current->_right.reset(new node(x.first, x.second));
-                    current->_right.get()->_parent.reset(current);
+                    current->_right.get()->_parent = current;
                     return std::make_pair(iterator{current->_right.get()}, true);
                 }
                 current = current->_right.get();
@@ -85,7 +85,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const 
     if (current == nullptr)
     {
         _root.reset(new node(x.first, x.second));
-        _root.get()->_parent.reset();
+        _root.get()->_parent = nullptr;
         return std::make_pair(iterator{_root.get()}, true);
     }
     else
@@ -101,7 +101,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const 
                 if (current->_left.get() == nullptr)
                 {
                     current->_left.reset(new node(x.first, x.second));
-                    current->_left.get()->_parent.reset(current);
+                    current->_left.get()->_parent = current;
                     return std::make_pair(iterator{current->_left.get()}, true);
                 }
                 current = current->_left.get();
@@ -111,7 +111,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const 
                 if (current->_right.get() == nullptr)
                 {
                     current->_right.reset(new node(x.first, x.second));
-                    current->_right.get()->_parent.reset(current);
+                    current->_right.get()->_parent = current;
                     return std::make_pair(iterator{current->_right.get()}, true);
                 }
                 current = current->_right.get();
@@ -132,7 +132,7 @@ void bst<K, V>::erase(const K &x)
     else
     {
         //node is the root
-        if (it.current->_parent.get() == nullptr)
+        if (it.current->_parent  == nullptr)
         {
 
             if (it.current->_left.get() == nullptr && it.current->_right.get() == nullptr)
@@ -141,12 +141,12 @@ void bst<K, V>::erase(const K &x)
             }
             else if (it.current->_left.get() == nullptr)
             {
-                it.current->_right.get()->_parent.reset();
+                it.current->_right.get()->_parent = nullptr;
                 _root.reset(it.current->_right.get());
             }
             else if (it.current->_right.get() == nullptr)
             {
-                it.current->_left.get()->_parent.reset();
+                it.current->_left.get()->_parent = nullptr;
                 _root.reset(it.current->_left.get());
             }
             else
@@ -158,8 +158,8 @@ void bst<K, V>::erase(const K &x)
                     rightest_child = rightest_child->_right.get();
                 rightest_child->_right.reset(it.current->_right.get());
 
-                it.current->_right.get()->_parent.reset(rightest_child);
-                it.current->_left.get()->_parent.reset();
+                it.current->_right.get()->_parent = rightest_child;
+                it.current->_left.get()->_parent = nullptr;
             }
             return;
         }
@@ -167,11 +167,11 @@ void bst<K, V>::erase(const K &x)
         //node has no children
         if (it.current->_right.get() == nullptr && it.current->_left.get() == nullptr)
         {
-            //(it.current == it.current->_parent.get()->_right.get()) ? it.current->_parent.get()->_right.reset() : it.current->_parent.get()->_left.reset();
-            if(it.current == it.current->_parent.get()->_right.get()){
-                it.current->_parent.get()->_right.reset();
+            //(it.current == it.current->_parent ->_right.get()) ? it.current->_parent ->_right.reset() : it.current->_parent ->_left.reset();
+            if(it.current == it.current->_parent ->_right.get()){
+                it.current->_parent ->_right.reset();
             } else{
-             it.current->_parent.get()->_left.reset();
+             it.current->_parent ->_left.reset();
             }
             
             // delete it.current;
@@ -179,47 +179,47 @@ void bst<K, V>::erase(const K &x)
         }
 
         //node having only left child and it is the left child of the parent
-        if (it.current->_left.get() != nullptr && it.current->_right.get() == nullptr && it.current == it.current->_parent.get()->_left.get())
+        if (it.current->_left.get() != nullptr && it.current->_right.get() == nullptr && it.current == it.current->_parent ->_left.get())
         {
-            it.current->_parent.get()->_left.reset(it.current->_left.get());
-            it.current->_left.get()->_parent.reset(it.current->_parent.get());
+            it.current->_parent ->_left.reset(it.current->_left.get());
+            it.current->_left.get()->_parent = it.current->_parent;
             // delete it.current;
             return;
         }
 
         //node having only right child and it is the left child of the parent
-        if (it.current->_left.get() == nullptr && it.current->_right.get() != nullptr && it.current == it.current->_parent.get()->_left.get())
+        if (it.current->_left.get() == nullptr && it.current->_right.get() != nullptr && it.current == it.current->_parent ->_left.get())
         {
-            it.current->_parent.get()->_left.reset(it.current->_right.get());
-            it.current->_right.get()->_parent.reset(it.current->_parent.get());
+            it.current->_parent ->_left.reset(it.current->_right.get());
+            it.current->_right.get()->_parent = it.current->_parent;
             // delete it.current;
             return;
         }
 
         //node having only right child and it is the right child of the parent
-        if (it.current->_left.get() == nullptr && it.current->_right.get() != nullptr && it.current == it.current->_parent.get()->_right.get())
+        if (it.current->_left.get() == nullptr && it.current->_right.get() != nullptr && it.current == it.current->_parent ->_right.get())
         {
-            it.current->_parent.get()->_right.reset(it.current->_right.get());
-            it.current->_right.get()->_parent.reset(it.current->_parent.get());
+            it.current->_parent ->_right.reset(it.current->_right.get());
+            it.current->_right.get()->_parent = it.current->_parent;
             // delete it.current;
             return;
         }
 
         //node having only left child and it is the right child of the parent
-        if (it.current->_left.get() != nullptr && it.current->_right.get() == nullptr && it.current == it.current->_parent.get()->_right.get())
+        if (it.current->_left.get() != nullptr && it.current->_right.get() == nullptr && it.current == it.current->_parent ->_right.get())
         {
-            it.current->_parent.get()->_right.reset(it.current->_left.get());
-            it.current->_left.get()->_parent.reset(it.current->_parent.get());
+            it.current->_parent ->_right.reset(it.current->_left.get());
+            it.current->_left.get()->_parent = it.current->_parent;
             // delete it.current;
             return;
         }
 
         //the node has two child and it is the right child of parent
-        if (it.current->_right.get() != nullptr && it.current->_left.get() != nullptr && it.current == it.current->_parent.get()->_right.get())
+        if (it.current->_right.get() != nullptr && it.current->_left.get() != nullptr && it.current == it.current->_parent ->_right.get())
         {
             //colleghiamo il figlio di destra del parent al figlio di sinistra del nodo corrente
-            it.current->_parent.get()->_right.reset(it.current->_left.get());
-            it.current->_left.get()->_parent.reset(it.current->_parent.get());
+            it.current->_parent ->_right.reset(it.current->_left.get());
+            it.current->_left.get()->_parent = it.current->_parent;
 
             node *rightest_child = it.current->_left.get();
 
@@ -227,18 +227,18 @@ void bst<K, V>::erase(const K &x)
                 rightest_child = rightest_child->_right.get();
             rightest_child->_right.reset(it.current->_right.get());
 
-            it.current->_right.get()->_parent.reset(rightest_child);
+            it.current->_right.get()->_parent = rightest_child;
 
             // delete it.current;
             return;
         }
 
         //the node has two child and it is the left child of parent
-        if (it.current->_right.get() != nullptr && it.current->_left.get() != nullptr && it.current == it.current->_parent.get()->_left.get())
+        if (it.current->_right.get() != nullptr && it.current->_left.get() != nullptr && it.current == it.current->_parent ->_left.get())
         {
             //colleghiamo il figlio di destra del parent al figlio di sinistra del nodo corrente
-            it.current->_parent.get()->_left.reset(it.current->_left.get());
-            it.current->_left.get()->_parent.reset(it.current->_parent.get());
+            it.current->_parent ->_left.reset(it.current->_left.get());
+            it.current->_left.get()->_parent = it.current->_parent;
 
             node *rightest_child = it.current->_left.get();
 
@@ -246,7 +246,7 @@ void bst<K, V>::erase(const K &x)
                 rightest_child = rightest_child->_right.get();
             rightest_child->_right.reset(it.current->_right.get());
 
-            it.current->_right.get()->_parent.reset(rightest_child);
+            it.current->_right.get()->_parent = rightest_child;
 
             // delete it.current;
             return;
