@@ -1,16 +1,16 @@
 #include "../include/bst.h"
 
-// template <typename K, typename V>
-// bst<K, V>::bst() { _root.reset(); }
+// template <typename K, typename V, typename comparator>
+// bst<K, V, comparator>::bst() { _root.reset(); }
 
-template <typename K, typename V>
-bst<K, V>::bst(node &root)
+template <typename K, typename V, typename comparator>
+bst<K, V, comparator>::bst(node &root)
 {
     _root.reset(&root);
 }
 
-template <typename K, typename V>
-bst<K, V>::bst(const bst &b)
+template <typename K, typename V, typename comparator>
+bst<K, V, comparator>::bst(const bst &b)
 { //copy ctor - deepcopy
     if (b._root == nullptr)
     {
@@ -23,8 +23,8 @@ bst<K, V>::bst(const bst &b)
     }
 }
 
-template <typename K, typename V>
-void bst<K, V>::copy(node *n, node *m)
+template <typename K, typename V, typename comparator>
+void bst<K, V, comparator>::copy(node *n, node *m)
 {
     if (m->_right != nullptr)
     {
@@ -38,8 +38,8 @@ void bst<K, V>::copy(node *n, node *m)
     }
 }
 
-template <typename K, typename V>
-typename bst<K, V>::iterator bst<K, V>::begin() noexcept
+template <typename K, typename V, typename comparator>
+typename bst<K, V, comparator>::iterator bst<K, V, comparator>::begin() noexcept
 {
     if (_root == nullptr)
         return iterator{nullptr};
@@ -51,8 +51,8 @@ typename bst<K, V>::iterator bst<K, V>::begin() noexcept
     return iterator{current};
 }
 
-template <typename K, typename V>
-typename bst<K, V>::const_iterator bst<K, V>::begin() const noexcept
+template <typename K, typename V, typename comparator>
+typename bst<K, V, comparator>::const_iterator bst<K, V, comparator>::begin() const noexcept
 {
     if (_root == nullptr)
         return const_iterator{nullptr};
@@ -64,14 +64,14 @@ typename bst<K, V>::const_iterator bst<K, V>::begin() const noexcept
     return const_iterator{current};
 }
 
-template <typename K, typename V>
-typename bst<K, V>::iterator bst<K, V>::end() noexcept { return iterator{nullptr}; }
+template <typename K, typename V, typename comparator>
+typename bst<K, V, comparator>::iterator bst<K, V, comparator>::end() noexcept { return iterator{nullptr}; }
 
-template <typename K, typename V>
-typename bst<K, V>::const_iterator bst<K, V>::end() const noexcept { return const_iterator{nullptr}; }
+template <typename K, typename V, typename comparator>
+typename bst<K, V, comparator>::const_iterator bst<K, V, comparator>::end() const noexcept { return const_iterator{nullptr}; }
 
-template <typename K, typename V>
-std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<const K, V> &x)
+template <typename K, typename V, typename comparator>
+std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>::insert(const std::pair<const K, V> &x)
 {
     node *current = _root.get();
     if (current == nullptr)
@@ -87,7 +87,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
             {
                 return std::make_pair(iterator{current}, false);
             }
-            else if (current->_pair.first > x.first)
+            else if (cmp(x.first, current->_pair.first))
             {
                 if (current->_left == nullptr)
                 {
@@ -112,8 +112,8 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
     return std::make_pair(iterator{nullptr}, false);
 }
 
-template <typename K, typename V>
-std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const K, V> &&x)
+template <typename K, typename V, typename comparator>
+std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>::insert(std::pair<const K, V> &&x)
 {
     node *current = _root.get();
     if (current == nullptr)
@@ -129,7 +129,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const 
             {
                 return std::make_pair(iterator{current}, false);
             }
-            else if (current->_pair.first > x.first)
+            else if (cmp(x.first, current->_pair.first))
             {
                 if (current->_left == nullptr)
                 {
@@ -154,8 +154,8 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const 
     return std::make_pair(iterator{nullptr}, false);
 }
 
-template <typename K, typename V>
-void bst<K, V>::erase_root()
+template <typename K, typename V, typename comparator>
+void bst<K, V, comparator>::erase_root()
 {
 
     if (_root->_right == nullptr && _root->_left == nullptr) // root has no children
@@ -188,8 +188,8 @@ void bst<K, V>::erase_root()
     }
 }
 
-template <typename K, typename V>
-void bst<K, V>::erase(const K &x)
+template <typename K, typename V, typename comparator>
+void bst<K, V, comparator>::erase(const K &x)
 {
 
     iterator it = find(x);
@@ -208,7 +208,6 @@ void bst<K, V>::erase(const K &x)
         if (it.current->_right == nullptr && it.current->_left == nullptr)
         {
             (it.current == it.current->_parent->_right.get()) ? it.current->_parent->_right.reset() : it.current->_parent->_left.reset();
-            // delete it.current;
             return;
         }
 
@@ -218,7 +217,6 @@ void bst<K, V>::erase(const K &x)
             it.current->_left->_parent = it.current->_parent;
             it.current->_parent->_left.swap(it.current->_left);
             it.current->_left.reset(nullptr); //TODO: memory leak if not present?
-            // delete it.current;
             return;
         }
 
@@ -228,7 +226,6 @@ void bst<K, V>::erase(const K &x)
             it.current->_right->_parent = it.current->_parent;
             it.current->_parent->_left.swap(it.current->_right);
             it.current->_right.reset(nullptr); //TODO: memory leak if not present?
-            // delete it.current;
             return;
         }
 
@@ -239,7 +236,6 @@ void bst<K, V>::erase(const K &x)
             it.current->_right->_parent = it.current->_parent;
             it.current->_parent->_right.swap(it.current->_right);
             it.current->_right.reset(nullptr); //TODO: memory leak if not present?
-            // delete it.current;
             return;
         }
 
@@ -249,7 +245,6 @@ void bst<K, V>::erase(const K &x)
             it.current->_left->_parent = it.current->_parent;
             it.current->_parent->_right.swap(it.current->_left);
             it.current->_left.reset(nullptr); //TODO: memory leak if not present?
-            // delete it.current;
             return;
         }
 
@@ -267,10 +262,6 @@ void bst<K, V>::erase(const K &x)
             //colleghiamo il figlio di destra del parent al figlio di sinistra del nodo corrente
             it.current->_left->_parent = it.current->_parent;
             it.current->_parent->_right.swap(it.current->_left);
-            // it.current->_right.swap(it.current->_left->_right);
-            // it.current->_right.reset(nullptr);
-            // it.current->_left.reset(nullptr); //TODO: memory leak if not present?
-            // delete it.current;
             return;
         }
 
@@ -290,7 +281,6 @@ void bst<K, V>::erase(const K &x)
 
             it.current->_right->_parent = rightest_child;
 
-            // delete it.current;
             return;
         }
 
@@ -299,8 +289,8 @@ void bst<K, V>::erase(const K &x)
     }
 }
 
-template <typename K, typename V>
-void bst<K, V>::clear()
+template <typename K, typename V, typename comparator>
+void bst<K, V, comparator>::clear()
 {
     for (_iterator<int> it = (*this).begin(); it != (*this).end();)
     {
@@ -310,8 +300,8 @@ void bst<K, V>::clear()
     }
 }
 
-template <typename K, typename V>
-typename bst<K, V>::iterator bst<K, V>::find(const K &x)
+template <typename K, typename V, typename comparator>
+typename bst<K, V, comparator>::iterator bst<K, V, comparator>::find(const K &x)
 {
     for (_iterator<int> it = (*this).begin(); it != (*this).end(); it++)
     {
@@ -322,8 +312,8 @@ typename bst<K, V>::iterator bst<K, V>::find(const K &x)
     return _iterator<K>{nullptr};
 }
 
-template <typename K, typename V>
-void bst<K, V>::divide_and_build(std::vector<std::pair<K, V>> values)
+template <typename K, typename V, typename comparator>
+void bst<K, V, comparator>::divide_and_build(std::vector<std::pair<K, V>> values)
 {
     if (values.size() == 1)
     {
@@ -347,8 +337,8 @@ void bst<K, V>::divide_and_build(std::vector<std::pair<K, V>> values)
     }
 }
 
-template <typename K, typename V>
-void bst<K, V>::balance()
+template <typename K, typename V, typename comparator>
+void bst<K, V, comparator>::balance()
 {
 
     // tree is empty

@@ -6,8 +6,8 @@
 #include <vector>
 #include <array>
 
-//template<typename K, typename V, typename comparator = std::less<K>>
-template <typename K, typename V>
+// template <typename K, typename V>
+template <typename K, typename V, typename comparator = std::less<K>>
 class bst
 {
 public: //make it private
@@ -29,6 +29,7 @@ public: //make it private
 	};
 
 	std::unique_ptr<node> _root;
+	comparator cmp;
 
 	template <typename O>
 	class _iterator;
@@ -97,9 +98,9 @@ public:
 	void balance();
 };
 
-template <typename K, typename V>
+template <typename K, typename V, typename comparator>
 template <typename O>
-class bst<K, V>::_iterator
+class bst<K, V, comparator>::_iterator
 {
 public:
 	using node = typename bst<K, V>::node;
@@ -123,9 +124,7 @@ public:
 		if (current->_right.get() == nullptr)
 		{
 			while (current->_parent != nullptr && current->_pair.first > current->_parent->_pair.first)
-			{
 				current = current->_parent;
-			}
 			current = current->_parent;
 		}
 		//se ci sono nodi a destra ci sono sicuramente altri nodi su cui iterare
