@@ -21,14 +21,10 @@ public: //make it private
 
 		node() = default;
 
-		node(std::pair<K, V> a_pair) : _parent{nullptr}, _pair{a_pair} {}
+		node(std::pair<K, V> a_pair) : _parent{}, _right{}, _left{}, _pair{a_pair} {}
 
-		node(node *parent, std::pair<K, V> a_pair) : _parent{parent}, _pair{a_pair}
-		{
-			_left.reset();
-			_right.reset();
-		}
-		
+		node(node *parent, std::pair<K, V> a_pair) : _parent{parent}, _right{}, _left{}, _pair{a_pair} {}
+
 		~node() = default;
 	};
 

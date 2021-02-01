@@ -12,9 +12,8 @@ int main()
 
 	std::vector<int> v{8, 3, 10, 6, 1, 14, 7, 4, 13};
 	for (std::size_t i = 0; i < v.size(); ++i)
-	{
-		tree.insert(std::make_pair(v.at(i), v.at(i)));
-	}
+		tree.insert({v.at(i), v.at(i)});
+
 	std::cout << "Tree: " << tree << std::endl;
 
 	std::cout << "Tree before balance: " << tree << std::endl;

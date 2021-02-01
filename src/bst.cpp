@@ -77,14 +77,13 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
     if (current == nullptr)
     {
         _root.reset(new node(x));
-        _root->_parent = nullptr;
         return std::make_pair(iterator{_root.get()}, true);
     }
     else
     {
         while (current != nullptr)
         {
-            if (current->_pair.fist == x.first)
+            if (current->_pair.first == x.first)
             {
                 return std::make_pair(iterator{current}, false);
             }
@@ -120,7 +119,6 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const 
     if (current == nullptr)
     {
         _root.reset(new node(x));
-        _root->_parent = nullptr;
         return std::make_pair(iterator{_root.get()}, true);
     }
     else
