@@ -23,22 +23,12 @@ public: //make it private
 
 		node(std::pair<K, V> a_pair) : _parent{nullptr}, _pair{a_pair} {}
 
-		node(K key, V value) : _parent{nullptr}, _pair{std::make_pair(key, value)}
+		node(node *parent, std::pair<K, V> a_pair) : _parent{parent}, _pair{a_pair}
 		{
 			_left.reset();
 			_right.reset();
 		}
-
-		node(node &parent, K key, V value) : _parent{&parent}, _pair{std::make_pair(key, value)}
-		{
-			_left.reset();
-			_right.reset();
-		}
-		node(node *parent, K key, V value) : _parent{parent}, _pair{std::make_pair(key, value)}
-		{
-			_left.reset();
-			_right.reset();
-		}
+		
 		~node() = default;
 	};
 
@@ -63,12 +53,13 @@ public:
 	bst(const bst &b);
 	~bst() = default;
 
-	bst& operator=(const bst& b){
-        _root.reset();
-        auto tmp = b; // copy ctor
-        (*this) = std::move(tmp); // move assignment
-        return *this;
-    }
+	bst &operator=(const bst &b)
+	{
+		_root.reset();
+		auto tmp = b;			  // copy ctor
+		(*this) = std::move(tmp); // move assignment
+		return *this;
+	}
 
 	void copy(node *n, node *m);
 
@@ -105,53 +96,9 @@ public:
 
 	void erase_root();
 
-	void balance()
-	{
-		//count the number of nodes
-		std::size_t number_of_elements = 0;
-		for (auto a : *this)
-			number_of_elements++;
-		std::pair<K, V> arr[number_of_elements];
+	void divide_and_build(std::vector<std::pair<K, V>> values);
 
-		//populate the array of node pointers
-		std::size_t index = 0;
-		for (_iterator<int> it = (*this).begin(); it != (*this).end(); it++)
-		{
-			arr[index++] = it.current._pair;
-		}
-		//build another tree
-		bst<K, V> another_tree{};
-
-		another_tree._root.reset(new node(arr[number_of_elements / 2]));
-		divide_and_build(arr, number_of_elements);
-		// (*this).clear();
-		*this = another_tree;
-	}
-
-	void divide_and_build(node arr[], std::size_t arr_size)
-	{
-		if (arr_size == 1)
-			return;
-		else
-		{
-			node *parent = new node{arr[arr_size / 2]._pair.first, arr[arr_size / 2]._value};
-			node *left_child = new node{arr[arr_size / 4]._pair.first, arr[arr_size / 4]._value};
-			node *right_child = new node{arr[arr_size / 2 + arr_size / 4]._pair.first, arr[arr_size / 2 + arr_size / 4]._value};
-
-			parent->_left.reset(left_child);
-			parent->_right.reset(right_child);
-
-			node left_arr[arr_size / 2];
-			for (std::size_t i = 0; i < arr_size / 2; i++)
-				left_arr[i] = arr[i];
-			divide_and_build(left_arr, arr_size / 2);
-
-			node right_arr[arr_size / 2];
-			for (int i = arr_size / 2 + 1; i < arr_size; i++)
-				right_arr[i] = arr[i];
-			divide_and_build(right_arr, arr_size / 2);
-		}
-	}
+	void balance();
 };
 
 template <typename K, typename V>

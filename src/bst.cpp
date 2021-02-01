@@ -18,7 +18,7 @@ bst<K, V>::bst(const bst &b)
     }
     else
     {
-        _root.reset(new node(b._root->_pair.first, b._root->_pair.second));
+        _root.reset(new node(b._root->_pair));
         copy(_root.get(), b._root.get());
     }
 }
@@ -28,12 +28,12 @@ void bst<K, V>::copy(node *n, node *m)
 {
     if (m->_right != nullptr)
     {
-        n->_right.reset(new node(n, m->_right->_pair.first, m->_right->_pair.second));
+        n->_right.reset(new node(n, m->_right->_pair));
         copy(n->_right.get(), m->_right.get());
     }
     if (m->_left != nullptr)
     {
-        n->_left.reset(new node(n, m->_left->_pair.first, m->_left->_pair.second));
+        n->_left.reset(new node(n, m->_left->_pair));
         copy(n->_left.get(), m->_left.get());
     }
 }
@@ -76,7 +76,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
     node *current = _root.get();
     if (current == nullptr)
     {
-        _root.reset(new node(x.first, x.second));
+        _root.reset(new node(x));
         _root->_parent = nullptr;
         return std::make_pair(iterator{_root.get()}, true);
     }
@@ -92,7 +92,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
             {
                 if (current->_left == nullptr)
                 {
-                    current->_left.reset(new node(x.first, x.second));
+                    current->_left.reset(new node(x));
                     current->_left->_parent = current;
                     return std::make_pair(iterator{current->_left.get()}, true);
                 }
@@ -102,7 +102,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
             { //current->_key < x.first
                 if (current->_right == nullptr)
                 {
-                    current->_right.reset(new node(x.first, x.second));
+                    current->_right.reset(new node(x));
                     current->_right->_parent = current;
                     return std::make_pair(iterator{current->_right.get()}, true);
                 }
@@ -119,7 +119,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const 
     node *current = _root.get();
     if (current == nullptr)
     {
-        _root.reset(new node(x.first, x.second));
+        _root.reset(new node(x));
         _root->_parent = nullptr;
         return std::make_pair(iterator{_root.get()}, true);
     }
@@ -135,7 +135,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const 
             {
                 if (current->_left == nullptr)
                 {
-                    current->_left.reset(new node(x.first, x.second));
+                    current->_left.reset(new node(x));
                     current->_left->_parent = current;
                     return std::make_pair(iterator{current->_left.get()}, true);
                 }
@@ -145,7 +145,7 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const 
             { //current->_key < x.first
                 if (current->_right == nullptr)
                 {
-                    current->_right.reset(new node(x.first, x.second));
+                    current->_right.reset(new node(x));
                     current->_right->_parent = current;
                     return std::make_pair(iterator{current->_right.get()}, true);
                 }
@@ -322,4 +322,53 @@ typename bst<K, V>::iterator bst<K, V>::find(const K &x)
     }
 
     return _iterator<K>{nullptr};
+}
+
+template <typename K, typename V>
+void bst<K, V>::divide_and_build(std::vector<std::pair<K, V>> values)
+{
+    if (values.size() == 1)
+    {
+        insert(values.at(0));
+        return;
+    }
+    else
+    {
+        std::size_t half = values.size() / 2;
+        insert(values.at(half));
+
+        std::vector<std::pair<K, V>> left_values{}, right_values{};
+        for (std::size_t i = 0; i < half; i++)
+        {
+            left_values.push_back(values.at(i));
+            right_values.push_back(values.at(values.size() - 1 - i));
+        }
+
+        divide_and_build(left_values);
+        divide_and_build(right_values);
+    }
+}
+
+template <typename K, typename V>
+void bst<K, V>::balance()
+{
+
+    // tree is empty
+    if (_root == nullptr)
+    {
+        return;
+    }
+
+    std::vector<std::pair<K, V>> values{};
+
+    //populate the array of node pointers
+    for (_iterator<int> it = (*this).begin(); it != (*this).end(); it++)
+    {
+        values.push_back(it.current->_pair);
+    }
+
+    //delete the tree
+    (*this).clear();
+
+    divide_and_build(values);
 }
