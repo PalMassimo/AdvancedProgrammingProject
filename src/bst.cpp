@@ -55,11 +55,11 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(const std::pair<
     {
         while (current != nullptr)
         {
-            if (current->_key == x.first)
+            if (current->_pair.fist == x.first)
             {
                 return std::make_pair(iterator{current}, false);
             }
-            else if (current->_key > x.first)
+            else if (current->_pair.first > x.first)
             {
                 if (current->_left == nullptr)
                 {
@@ -98,11 +98,11 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const 
     {
         while (current != nullptr)
         {
-            if (current->_key == x.first)
+            if (current->_pair.first == x.first)
             {
                 return std::make_pair(iterator{current}, false);
             }
-            else if (current->_key > x.first)
+            else if (current->_pair.first > x.first)
             {
                 if (current->_left == nullptr)
                 {
@@ -126,158 +126,6 @@ std::pair<typename bst<K, V>::iterator, bool> bst<K, V>::insert(std::pair<const 
     }
     return std::make_pair(iterator{nullptr}, false);
 }
-
-// template <typename K, typename V>
-// void bst<K, V>::erase1(const K &x)
-// {
-
-//     iterator it = find(x);
-
-//     if (it == end())
-//         return;
-//     else
-//     {
-//         //node is the root
-//         if (it.current->_parent == nullptr)
-//         {
-
-//             if (it.current->_left == nullptr && it.current->_right == nullptr)
-//             {
-//                 _root.reset();
-//             }
-//             else if (it.current->_left == nullptr)
-//             {
-//                 _root.swap(it.current->_right);
-//                 it.current->_parent = nullptr;
-//             }
-//             else if (it.current->_right == nullptr)
-//             {
-//                 _root.swap(it.current->_left);
-//                 _root->_parent = nullptr;
-//                 it.current->_left.reset(nullptr); //TODO: memory leak if not present?
-//             }
-//             else
-//             {
-//                 node *rightest_child = it.current->_left.get();
-
-//                 while (rightest_child->_right != nullptr)
-//                     rightest_child = rightest_child->_right.get();
-//                 rightest_child->_right.reset(it.current->_right.get());
-
-//                 it.current->_right->_parent = rightest_child;
-//                 it.current->_left->_parent = nullptr;
-//             }
-//             return;
-//         }
-
-//         //node has no children
-//         if (it.current->_right == nullptr && it.current->_left == nullptr)
-//         {
-//             //(it.current == it.current->_parent ->_right.get()) ? it.current->_parent ->_right.reset() : it.current->_parent ->_left.reset();
-//             if (it.current == it.current->_parent->_right.get())
-//             {
-//                 it.current->_parent->_right.reset();
-//             }
-//             else
-//             {
-//                 it.current->_parent->_left.reset();
-//             }
-
-//             // delete it.current;
-//             return;
-//         }
-
-//         //node having only left child and it is the left child of the parent
-//         if (it.current->_left != nullptr && it.current->_right == nullptr && it.current == it.current->_parent->_left.get())
-//         {
-//             it.current->_left->_parent = it.current->_parent;
-//             it.current->_parent->_left.swap(it.current->_left);
-//             it.current->_left.reset(nullptr); //TODO: memory leak if not present?
-//             // delete it.current;
-//             return;
-//         }
-
-//         //node having only right child and it is the left child of the parent
-//         if (it.current->_left == nullptr && it.current->_right != nullptr && it.current == it.current->_parent->_left.get())
-//         {
-//             it.current->_right->_parent = it.current->_parent;
-//             it.current->_parent->_left.swap(it.current->_right);
-//             it.current->_right.reset(nullptr); //TODO: memory leak if not present?
-//             // delete it.current;
-//             return;
-//         }
-
-//         //node having only right child and it is the right child of the parent
-//         if (it.current->_left== nullptr && it.current->_right != nullptr && it.current == it.current->_parent->_right.get())
-//         {
-
-//             it.current->_right->_parent = it.current->_parent;
-//             it.current->_parent->_right.swap(it.current->_right);
-//             it.current->_right.reset(nullptr); //TODO: memory leak if not present?
-//             // delete it.current;
-//             return;
-//         }
-
-//         //node having only left child and it is the right child of the parent
-//         if (it.current->_left != nullptr && it.current->_right == nullptr && it.current == it.current->_parent->_right.get())
-//         {
-//             it.current->_left->_parent = it.current->_parent;
-//             it.current->_parent->_right.swap(it.current->_left);
-//             it.current->_left.reset(nullptr);   //TODO: memory leak if not present?
-//             // delete it.current;
-//             return;
-//         }
-
-//         //the node has two child and it is the right child of parent
-//         if (it.current->_right != nullptr && it.current->_left != nullptr && it.current == it.current->_parent->_right.get())
-//         {
-//             node *rightest_child = it.current->_left.get();
-
-//             while (rightest_child->_right != nullptr)
-//                 rightest_child = rightest_child->_right.get();
-//             rightest_child->_right.reset(it.current->_right.get());
-
-//             it.current->_right->_parent = rightest_child;
-
-//             //colleghiamo il figlio di destra del parent al figlio di sinistra del nodo corrente
-//             it.current->_left->_parent = it.current->_parent;
-//             it.current->_parent->_right.swap(it.current->_left);
-//             // it.current->_right.swap(it.current->_left->_right);
-//             // it.current->_right.reset(nullptr);
-//             // it.current->_left.reset(nullptr); //TODO: memory leak if not present?
-//             // delete it.current;
-//             return;
-//         }
-
-//         //the node has two child and it is the left child of parent
-//         if (it.current->_right != nullptr && it.current->_left != nullptr && it.current == it.current->_parent->_left.get())
-//         {
-//             //colleghiamo il figlio di destra del parent al figlio di sinistra del nodo corrente
-//             it.current->_left->_parent = it.current->_parent;
-//             it.current->_parent->_left.swap(it.current->_left);
-//             it.current->_left.reset(nullptr); //TODO: memory leak if not present?
-
-//             node *rightest_child = it.current->_left.get();
-
-//             while (rightest_child->_right != nullptr)
-//                 rightest_child = rightest_child->_right.get();
-//             rightest_child->_right.reset(it.current->_right.get());
-
-//             it.current->_right->_parent = rightest_child;
-
-//             // delete it.current;
-//             return;
-//         }
-
-//         std::cout << "if this point is reached at least one case is missing" << std::endl;
-//         return;
-//     }
-// }
-
-// template<typename K, typename V>
-// typename bst<K,V>::node* getRightestChild(node * root){
-
-// }
 
 template <typename K, typename V>
 void bst<K, V>::erase_root()

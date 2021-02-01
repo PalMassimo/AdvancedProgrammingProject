@@ -21,11 +21,11 @@ int main()
 	}
 	std::cout << "Tree: " << tree << std::endl;
 
-	// tree.clear();
+	tree.clear();
 
 	std::cout << "Tree: " << tree << std::endl;
 	std::cout << "----- End Program -----" << std::endl;
 
-	// tree.balance();
+	tree.balance();
 	return 0;
 };
