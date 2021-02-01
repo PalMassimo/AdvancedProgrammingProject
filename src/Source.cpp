@@ -21,11 +21,17 @@ int main()
 	}
 	std::cout << "Tree: " << tree << std::endl;
 
+	bst<int, int> tree_copy=tree;
+
+	std::cout << "Tree_copy: " << tree_copy << std::endl;
+
 	tree.clear();
+
+	std::cout << "Tree_copy: " << tree_copy << std::endl;
 
 	std::cout << "Tree: " << tree << std::endl;
 	std::cout << "----- End Program -----" << std::endl;
 
-	tree.balance();
+	// tree.balance();
 	return 0;
 };

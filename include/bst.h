@@ -13,30 +13,33 @@ class bst
 public: //make it private
 	struct node
 	{
-		node* _parent;
+		node *_parent;
 		std::unique_ptr<node> _right;
 		std::unique_ptr<node> _left;
 
-		K _key;
-		V _value;
+		std::pair<K, V> _pair;
 
 		node() = default;
-		node(K key, V value) : _parent{nullptr}, _key{key}, _value{value}
+
+		node(std::pair<K, V> a_pair) : _parent{nullptr}, _pair{a_pair} {}
+
+		node(K key, V value) : _parent{nullptr}, _pair{std::make_pair(key, value)}
 		{
 			_left.reset();
 			_right.reset();
-		};
-		// node(node &parent_node, node &right_node, node &left_node, K key, V value) : _parent{&parent_node}, _right{&right_node}, _left{&left_node}, _key{key}, _value{value} {};
-		// node(node &parent_node, node &right_node, node &left_node, K key, V value) : _parent{std::make_unique<node>(parent_node)},
-		// 																			 _right{std::make_unique<node>(right_node)},
-		// 																			 _left{std::make_unique<node>(left_node)},
-		// 																			 _key{key}, _value{value} {};
-		node(node &parent_node, node &right_node, node &left_node, K key, V value):  _parent{parent_node}, _key{key}, _value{value}
-		{
-			_right.reset(right_node);
-			_left.reset(left_node);
 		}
-		~node()=default;
+
+		node(node &parent, K key, V value) : _parent{&parent}, _pair{std::make_pair(key, value)}
+		{
+			_left.reset();
+			_right.reset();
+		}
+		node(node *parent, K key, V value) : _parent{parent}, _pair{std::make_pair(key, value)}
+		{
+			_left.reset();
+			_right.reset();
+		}
+		~node() = default;
 	};
 
 	std::unique_ptr<node> _root;
@@ -57,9 +60,20 @@ public: //make it private
 public:
 	bst() = default;
 	bst(node &root);
-	~bst()=default;
+	bst(const bst &b);
+	~bst() = default;
 
-	void print_root();
+	bst& operator=(const bst& b){
+        _root.reset();
+        auto tmp = b; // copy ctor
+        (*this) = std::move(tmp); // move assignment
+        return *this;
+    }
+
+	void copy(node *n, node *m);
+
+	bst(bst &&b) = default;			   //: _root{std::move(b._root)}; // move ctor
+	bst &operator=(bst &&b) = default; //move assignment
 
 	std::pair<iterator, bool> insert(const std::pair<const K, V> &x);
 	std::pair<iterator, bool> insert(std::pair<const K, V> &&x);
@@ -89,19 +103,26 @@ public:
 
 	//value_type& operator[](key_type&& x); //TODO
 
+	void erase_root();
+
 	void balance()
 	{
+		//count the number of nodes
 		std::size_t number_of_elements = 0;
 		for (auto a : *this)
 			number_of_elements++;
-		node arr[number_of_elements];
+		std::pair<K, V> arr[number_of_elements];
+
+		//populate the array of node pointers
 		std::size_t index = 0;
 		for (_iterator<int> it = (*this).begin(); it != (*this).end(); it++)
 		{
-			arr[index++] = *(it.current);
+			arr[index++] = it.current._pair;
 		}
+		//build another tree
 		bst<K, V> another_tree{};
-		another_tree._root.reset(&arr[number_of_elements / 2]);
+
+		another_tree._root.reset(new node(arr[number_of_elements / 2]));
 		divide_and_build(arr, number_of_elements);
 		// (*this).clear();
 		*this = another_tree;
@@ -109,14 +130,13 @@ public:
 
 	void divide_and_build(node arr[], std::size_t arr_size)
 	{
-
 		if (arr_size == 1)
 			return;
 		else
 		{
-			node *parent = new node{arr[arr_size / 2]._key, arr[arr_size / 2]._value};
-			node *left_child = new node{arr[arr_size / 4]._key, arr[arr_size / 4]._value};
-			node *right_child = new node{arr[arr_size / 2 + arr_size / 4]._key, arr[arr_size / 2 + arr_size / 4]._value};
+			node *parent = new node{arr[arr_size / 2]._pair.first, arr[arr_size / 2]._value};
+			node *left_child = new node{arr[arr_size / 4]._pair.first, arr[arr_size / 4]._value};
+			node *right_child = new node{arr[arr_size / 2 + arr_size / 4]._pair.first, arr[arr_size / 2 + arr_size / 4]._value};
 
 			parent->_left.reset(left_child);
 			parent->_right.reset(right_child);
@@ -151,7 +171,7 @@ public:
 
 	_iterator(node *n) : current{n} {}
 
-	reference operator*() const { return current->_key; }
+	reference operator*() const { return current->_pair.first; }
 	pointer operator->() const { return &**this; }
 
 	_iterator &operator++()
@@ -159,7 +179,7 @@ public:
 
 		if (current->_right.get() == nullptr)
 		{
-			while (current->_parent != nullptr && current->_key > current->_parent->_key)
+			while (current->_parent != nullptr && current->_pair.first > current->_parent->_pair.first)
 			{
 				current = current->_parent;
 			}

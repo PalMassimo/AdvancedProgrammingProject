@@ -10,6 +10,35 @@ bst<K, V>::bst(node &root)
 }
 
 template <typename K, typename V>
+bst<K, V>::bst(const bst &b)
+{ //copy ctor - deepcopy
+    if (b._root == nullptr)
+    {
+        _root.reset(nullptr);
+    }
+    else
+    {
+        _root.reset(new node(b._root->_pair.first, b._root->_pair.second));
+        copy(_root.get(), b._root.get());
+    }
+}
+
+template <typename K, typename V>
+void bst<K, V>::copy(node *n, node *m)
+{
+    if (m->_right != nullptr)
+    {
+        n->_right.reset(new node(n, m->_right->_pair.first, m->_right->_pair.second));
+        copy(n->_right.get(), m->_right.get());
+    }
+    if (m->_left != nullptr)
+    {
+        n->_left.reset(new node(n, m->_left->_pair.first, m->_left->_pair.second));
+        copy(n->_left.get(), m->_left.get());
+    }
+}
+
+template <typename K, typename V>
 typename bst<K, V>::iterator bst<K, V>::begin() noexcept
 {
     if (_root == nullptr)
@@ -180,7 +209,7 @@ void bst<K, V>::erase(const K &x)
         //node has no children
         if (it.current->_right == nullptr && it.current->_left == nullptr)
         {
-            (it.current == it.current->_parent ->_right.get()) ? it.current->_parent ->_right.reset() : it.current->_parent ->_left.reset();
+            (it.current == it.current->_parent->_right.get()) ? it.current->_parent->_right.reset() : it.current->_parent->_left.reset();
             // delete it.current;
             return;
         }
