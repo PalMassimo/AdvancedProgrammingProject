@@ -4,7 +4,6 @@
 #include <utility>
 #include "node.h"
 
-
 /**
  * class implementing template binary search tree (BST)
 */
@@ -31,7 +30,7 @@ public:
 
 	/**
 	 * iterator class for iterating through bst class
-	 */
+	*/
 	template <typename O>
 	class _iterator;
 	using iterator = _iterator<K>;
@@ -39,16 +38,32 @@ public:
 
 	/**
 	 * function returning the first element of the tree. It is the one having the lowest key value
-	 */
+	*/
 	iterator begin() noexcept;
+
+	/**
+	 * As iterator begin(), but this one is const 
+	*/
 	const_iterator begin() const noexcept;
+
+	/**
+	 * As const_iterator begin() const
+	*/
 	const_iterator cbegin() const noexcept;
 
 	/**
 	 * function returning the last element of the tree. It is the one having the highest key value
-	 */
+	*/
 	iterator end() noexcept;
+
+	/**
+	 * As iterator end(), but this one is const 
+	*/
 	const_iterator end() const noexcept;
+
+	/**
+	 * As const_iterator end() const
+	*/
 	const_iterator cend() const noexcept;
 
 public:
@@ -56,6 +71,7 @@ public:
 	 * default constructor
 	*/
 	bst() = default;
+
 	/**
 	 * constructor that build a tree consisting of only a node passed to it
 	*/
@@ -82,15 +98,35 @@ private:
 	void erase_root();
 
 public:
+	/**
+ 	* Insert a node in the tree
+ 	*/
 	std::pair<iterator, bool> insert(const std::pair<const K, V> &x);
+
+	/**
+ 	* Insert a node in the tree, but const
+ 	*/
 	std::pair<iterator, bool> insert(std::pair<const K, V> &&x);
 
+	/**
+	*	chiedi a Tibor
+	*/
 	template <class... Types>
 	std::pair<iterator, bool> emplace(Types &&...args);
 
+	/**
+	 * Return an iterator pointing the node holding x value. If such doesn't exist, iterator points to nullptr
+	*/
 	iterator find(const K &x);
+
+	/**
+	 * As find, but const
+	*/
 	const_iterator find(const K &x) const;
 
+	/**
+	 * Erase a node holding x value, if any.
+	 */ 
 	void erase(const K &x);
 
 	void clear();
@@ -134,4 +170,3 @@ public:
 	 */
 	void balance();
 };
-

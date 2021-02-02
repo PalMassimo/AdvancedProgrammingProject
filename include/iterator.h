@@ -1,7 +1,7 @@
 #pragma once
 /**
  * iterator class
- */
+*/
 
 template <typename K, typename V, typename comparator>
 template <typename O>
@@ -9,6 +9,9 @@ class bst<K, V, comparator>::_iterator
 {
 public:
     using Node = node<K, V>;
+    /**
+     * node pointer pointing the current tree node the iterator is iterator through
+    */
     Node *current;
 
 public:
@@ -18,11 +21,24 @@ public:
     using difference_type = std::ptrdiff_t;
     using iterator_category = std::forward_iterator_tag;
 
+    /**
+     * Iterator constructor taking a node pointer. The iterator will point to this node. 
+     */
     _iterator(Node *n) : current{n} {}
 
+    /**
+     * Dereference operator overloading
+     */ 
     reference operator*() const { return current->_pair.first; }
+
+    /**
+     * Member accer operator overloading
+     */ 
     pointer operator->() const { return &**this; }
 
+    /**
+     * Pre increment operator overloading 
+    */
     _iterator &operator++()
     {
 
@@ -43,6 +59,9 @@ public:
         return *this;
     }
 
+    /**
+     * Post increment operator overloading
+    */
     _iterator operator++(int)
     {
         auto tmp{*this};
@@ -50,9 +69,23 @@ public:
         return tmp;
     }
 
+    /**
+     * Equality operator overloading. Both arguments are lvalues
+    */
     friend bool operator==(_iterator &a, _iterator &b) { return a.current == b.current; }
+
+    /**
+     * Equality operator overloading. The first argument is an lvalue, the second a right value
+    */
     friend bool operator==(_iterator &a, _iterator &&b) { return a.current == b.current; }
 
+    /**
+     * Inequality operator overloading. Both arguments are lvalues
+    */
     friend bool operator!=(_iterator &a, _iterator &b) { return !(a == b); }
+
+    /**
+     * Inequality operator overloading. The first argument is an lvalue, the second a right value
+    */
     friend bool operator!=(_iterator &a, _iterator &&b) { return !(a == b); }
 };

@@ -8,7 +8,7 @@
 int main()
 {
 	std::cout << "----- Start Program -----" << std::endl;
-
+	
 	bst<int, int> tree{};
 	std::cout << "Tree: " << tree << std::endl;
 
