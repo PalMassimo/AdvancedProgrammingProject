@@ -1,11 +1,9 @@
 #pragma once
 #include <memory>
 #include <iostream>
-#include <iterator>
 #include <utility>
-#include <vector>
-#include <array>
 #include "node.h"
+
 
 /**
  * class implementing template binary search tree (BST)
@@ -131,12 +129,9 @@ public:
 	V &operator[](const K &x) { return find(x).current->_pair.second; }
 	V &operator[](K &&x) { return find(x).current->_pair.second; }
 
-	//value_type& operator[](key_type&& x); //TODO
-
 	/**
 	 * Function balancing the tree, not in place.
 	 */
 	void balance();
 };
 
-#include "iterator.h"

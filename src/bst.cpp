@@ -1,3 +1,4 @@
+#include <vector>
 #include "../include/bst.h"
 
 template <typename K, typename V, typename comparator>
@@ -90,7 +91,7 @@ std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>:
     {
         while (current != nullptr)
         {
-            if (current->_pair.first == x.first)
+            if (!cmd(current->_pair.first,x.first) && !cmd(x.first, current->_pair.first))
             {
                 return std::make_pair(iterator{current}, false);
             }
@@ -132,7 +133,7 @@ std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>:
     {
         while (current != nullptr)
         {
-            if (current->_pair.first == x.first)
+            if (!op(current->_pair.first, x.first) && !op(x.first, current->_pair.first))
             {
                 return std::make_pair(iterator{current}, false);
             }
