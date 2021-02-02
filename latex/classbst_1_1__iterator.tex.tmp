@@ -1,0 +1,85 @@
+\hypertarget{classbst_1_1__iterator}{}\doxysection{bst$<$ K, V, comparator $>$\+::\+\_\+iterator$<$ O $>$ Class Template Reference}
+\label{classbst_1_1__iterator}\index{bst$<$ K, V, comparator $>$::\_iterator$<$ O $>$@{bst$<$ K, V, comparator $>$::\_iterator$<$ O $>$}}
+
+
+{\ttfamily \#include $<$bst.\+h$>$}
+
+
+
+Collaboration diagram for bst$<$ K, V, comparator $>$\+::\+\_\+iterator$<$ O $>$\+:
+% FIG 0
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_a470a7efa526485b8e0b2bed36331e3c0}\label{classbst_1_1__iterator_a470a7efa526485b8e0b2bed36331e3c0}} 
+using {\bfseries Node} = \mbox{\hyperlink{structnode}{node}}$<$ K, V $>$
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_a08434b4d666b0200f58402c2fff2ca34}\label{classbst_1_1__iterator_a08434b4d666b0200f58402c2fff2ca34}} 
+using {\bfseries value\+\_\+type} = O
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_ac6bb75acd793690bfc894741ce3f8003}\label{classbst_1_1__iterator_ac6bb75acd793690bfc894741ce3f8003}} 
+using {\bfseries reference} = value\+\_\+type \&
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_ad6084975bc17760c5cd5bf936593de58}\label{classbst_1_1__iterator_ad6084975bc17760c5cd5bf936593de58}} 
+using {\bfseries pointer} = value\+\_\+type $\ast$
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_a64ba5bdf6bb2ad99398c1ad708cf0f12}\label{classbst_1_1__iterator_a64ba5bdf6bb2ad99398c1ad708cf0f12}} 
+using {\bfseries difference\+\_\+type} = std\+::ptrdiff\+\_\+t
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_ae8ad0965c8d38a709bca92a8243ef5c5}\label{classbst_1_1__iterator_ae8ad0965c8d38a709bca92a8243ef5c5}} 
+using {\bfseries iterator\+\_\+category} = std\+::forward\+\_\+iterator\+\_\+tag
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_addca96d9960d1d0444eef35223625ecc}\label{classbst_1_1__iterator_addca96d9960d1d0444eef35223625ecc}} 
+{\bfseries \+\_\+iterator} (\mbox{\hyperlink{structnode}{Node}} $\ast$n)
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_a48721d1c65d843cb1dbf8ba6eb7ca4e7}\label{classbst_1_1__iterator_a48721d1c65d843cb1dbf8ba6eb7ca4e7}} 
+reference {\bfseries operator$\ast$} () const
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_a47dc20bde2d66928fd916003e338b36e}\label{classbst_1_1__iterator_a47dc20bde2d66928fd916003e338b36e}} 
+pointer {\bfseries operator-\/$>$} () const
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_a5ed9c320183e0e1096afbc234fccabb3}\label{classbst_1_1__iterator_a5ed9c320183e0e1096afbc234fccabb3}} 
+\mbox{\hyperlink{classbst_1_1__iterator}{\+\_\+iterator}} \& {\bfseries operator++} ()
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_a468b79844d0f5f41c830f628423e8e5c}\label{classbst_1_1__iterator_a468b79844d0f5f41c830f628423e8e5c}} 
+\mbox{\hyperlink{classbst_1_1__iterator}{\+\_\+iterator}} {\bfseries operator++} (int)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_ad80a73c5d882649da3f323b60bd0aaa2}\label{classbst_1_1__iterator_ad80a73c5d882649da3f323b60bd0aaa2}} 
+\mbox{\hyperlink{structnode}{Node}} $\ast$ {\bfseries current}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_a599d026a94192ab05408efac62127124}\label{classbst_1_1__iterator_a599d026a94192ab05408efac62127124}} 
+bool {\bfseries operator==} (\mbox{\hyperlink{classbst_1_1__iterator}{\+\_\+iterator}} \&a, \mbox{\hyperlink{classbst_1_1__iterator}{\+\_\+iterator}} \&b)
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_a819267d2d6b7f01e80a86881807db93e}\label{classbst_1_1__iterator_a819267d2d6b7f01e80a86881807db93e}} 
+bool {\bfseries operator==} (\mbox{\hyperlink{classbst_1_1__iterator}{\+\_\+iterator}} \&a, \mbox{\hyperlink{classbst_1_1__iterator}{\+\_\+iterator}} \&\&b)
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_aab30db2d33f82df6cf73532ed0b76207}\label{classbst_1_1__iterator_aab30db2d33f82df6cf73532ed0b76207}} 
+bool {\bfseries operator!=} (\mbox{\hyperlink{classbst_1_1__iterator}{\+\_\+iterator}} \&a, \mbox{\hyperlink{classbst_1_1__iterator}{\+\_\+iterator}} \&b)
+\item 
+\mbox{\Hypertarget{classbst_1_1__iterator_a711ecef48a449c023aacf9f10551aa42}\label{classbst_1_1__iterator_a711ecef48a449c023aacf9f10551aa42}} 
+bool {\bfseries operator!=} (\mbox{\hyperlink{classbst_1_1__iterator}{\+\_\+iterator}} \&a, \mbox{\hyperlink{classbst_1_1__iterator}{\+\_\+iterator}} \&\&b)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename K, typename V, typename comparator = std\+::less$<$\+K$>$$>$\newline
+template$<$typename O$>$\newline
+class bst$<$ K, V, comparator $>$\+::\+\_\+iterator$<$ O $>$}
+
+iterator class for iterating through bst class
+
+iterator class 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/bst.\+h\item 
+include/iterator.\+h\end{DoxyCompactItemize}

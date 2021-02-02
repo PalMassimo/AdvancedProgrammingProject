@@ -2,7 +2,7 @@
 
 template <typename K, typename V, typename comparator>
 bst<K, V, comparator>::bst(const bst &b)
-{ //copy ctor - deepcopy
+{
     if (b._root == nullptr)
     {
         _root.reset(nullptr);
@@ -56,10 +56,26 @@ typename bst<K, V, comparator>::const_iterator bst<K, V, comparator>::begin() co
 }
 
 template <typename K, typename V, typename comparator>
+typename bst<K, V, comparator>::const_iterator bst<K, V, comparator>::cbegin() const noexcept
+{
+    if (_root == nullptr)
+        return const_iterator{nullptr};
+
+    Node *current = _root.get();
+    while (current->_left != nullptr)
+        current = current->_left.get();
+
+    return const_iterator{current};
+}
+
+template <typename K, typename V, typename comparator>
 typename bst<K, V, comparator>::iterator bst<K, V, comparator>::end() noexcept { return iterator{nullptr}; }
 
 template <typename K, typename V, typename comparator>
 typename bst<K, V, comparator>::const_iterator bst<K, V, comparator>::end() const noexcept { return const_iterator{nullptr}; }
+
+template <typename K, typename V, typename comparator>
+typename bst<K, V, comparator>::const_iterator bst<K, V, comparator>::cend() const noexcept { return const_iterator{nullptr}; }
 
 template <typename K, typename V, typename comparator>
 std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>::insert(const std::pair<const K, V> &x)
@@ -130,8 +146,8 @@ std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>:
                 }
                 current = current->_left.get();
             }
-            else
-            { //current->_key < x.first
+            else //current->_key < x.first
+            {
                 if (current->_right == nullptr)
                 {
                     current->_right.reset(new Node(x));
@@ -143,6 +159,13 @@ std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>:
         }
     }
     return std::make_pair(iterator{nullptr}, false);
+}
+
+template <typename K, typename V, typename comparator>
+template <class... Types>
+std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>::emplace(Types &&...args)
+{
+    return (*this).insert({std::forward<Types>(args)...});
 }
 
 template <typename K, typename V, typename comparator>
@@ -207,7 +230,7 @@ void bst<K, V, comparator>::erase(const K &x)
         {
             it.current->_left->_parent = it.current->_parent;
             it.current->_parent->_left.swap(it.current->_left);
-            it.current->_left.reset(nullptr); //TODO: memory leak if not present?
+            it.current->_left.reset(nullptr);
             return;
         }
 
@@ -216,7 +239,7 @@ void bst<K, V, comparator>::erase(const K &x)
         {
             it.current->_right->_parent = it.current->_parent;
             it.current->_parent->_left.swap(it.current->_right);
-            it.current->_right.reset(nullptr); //TODO: memory leak if not present?
+            it.current->_right.reset(nullptr);
             return;
         }
 
@@ -226,7 +249,7 @@ void bst<K, V, comparator>::erase(const K &x)
 
             it.current->_right->_parent = it.current->_parent;
             it.current->_parent->_right.swap(it.current->_right);
-            it.current->_right.reset(nullptr); //TODO: memory leak if not present?
+            it.current->_right.reset(nullptr);
             return;
         }
 
@@ -235,7 +258,7 @@ void bst<K, V, comparator>::erase(const K &x)
         {
             it.current->_left->_parent = it.current->_parent;
             it.current->_parent->_right.swap(it.current->_left);
-            it.current->_left.reset(nullptr); //TODO: memory leak if not present?
+            it.current->_left.reset(nullptr);
             return;
         }
 
@@ -262,7 +285,7 @@ void bst<K, V, comparator>::erase(const K &x)
             //colleghiamo il figlio di destra del parent al figlio di sinistra del nodo corrente
             it.current->_left->_parent = it.current->_parent;
             it.current->_parent->_left.swap(it.current->_left);
-            it.current->_left.reset(nullptr); //TODO: memory leak if not present?
+            it.current->_left.reset(nullptr);
 
             Node *rightest_child = it.current->_left.get();
 
@@ -301,6 +324,18 @@ typename bst<K, V, comparator>::iterator bst<K, V, comparator>::find(const K &x)
     }
 
     return _iterator<K>{nullptr};
+}
+
+template <typename K, typename V, typename comparator>
+typename bst<K, V, comparator>::const_iterator bst<K, V, comparator>::find(const K &x) const
+{
+    for (const_iterator it = (*this).begin(); it != (*this).end(); it++)
+    {
+        if ((*it) == x)
+            return it;
+    }
+
+    return const_iterator{nullptr};
 }
 
 template <typename K, typename V, typename comparator>

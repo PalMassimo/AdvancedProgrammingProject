@@ -1,26 +1,53 @@
 #pragma once
 #include <memory>
 
-// namespace node
-// {
-    template <typename K, typename V>
-    struct node
-    {
-    public:
-        node *_parent;
-        std::unique_ptr<node> _right;
-        std::unique_ptr<node> _left;
+/**
+ * 
+ * The struct node implementing the concept of tree node.
+ * It consists of a pair of a key and a value.
+ * */
 
-        std::pair<K, V> _pair;
+template <typename K, typename V>
+struct node
+{
+public:
+    /**
+     * raw pointer pointing his parent node. The only node without a parent is the root node
+    */
+    node *_parent;
 
-    public:
-        node() = default;
+    /**
+     * unique pointer pointing the left child of node
+     */
+    std::unique_ptr<node> _right;
+    /**
+     * unique pointer pointing the right child of node
+     */
+    std::unique_ptr<node> _left;
 
-        node(std::pair<K, V> a_pair) : _parent{nullptr}, _right{}, _left{}, _pair{a_pair} {}
+    /**
+     * content of the node
+     */
+    std::pair<K, V> _pair;
 
-        node(node *parent, std::pair<K, V> a_pair) : _parent{parent}, _right{}, _left{}, _pair{a_pair} {}
+public:
+    /**
+     * Constructor of node without argument. It is set to default
+    */
+    node() = default;
 
-        ~node() = default;
-    };
+    /**
+     * Constructor of node taking a pair as argument. A node lnked to no other node is initialized with content passed as argument
+     */ 
+    node(std::pair<K, V> a_pair) : _parent{nullptr}, _right{}, _left{}, _pair{a_pair} {}
 
-//} // namespace node
+    /**
+     * Constructor build a node having as content the one passed to parameter, and having as parent the pointer passed as argument
+     */ 
+    node(node *parent, std::pair<K, V> a_pair) : _parent{parent}, _right{}, _left{}, _pair{a_pair} {}
+
+    /**
+     * Deconstructor of node, set to default
+     */ 
+    ~node() = default;
+};
