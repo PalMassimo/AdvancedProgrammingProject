@@ -1,7 +1,8 @@
 #include <iostream>
-#include "bst.cpp"
 #include <utility>
 #include <memory>
+#include "bst.cpp"
+
 
 int main()
 {

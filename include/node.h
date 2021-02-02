@@ -1,12 +1,12 @@
 #pragma once
 #include <memory>
 
-namespace node
-{
+// namespace node
+// {
     template <typename K, typename V>
     struct node
     {
-    private:
+    public:
         node *_parent;
         std::unique_ptr<node> _right;
         std::unique_ptr<node> _left;
@@ -23,4 +23,4 @@ namespace node
         ~node() = default;
     };
 
-} // namespace node
+//} // namespace node

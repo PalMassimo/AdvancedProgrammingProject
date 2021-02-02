@@ -3,8 +3,14 @@
 // template <typename K, typename V, typename comparator>
 // bst<K, V, comparator>::bst() { _root.reset(); }
 
+// using namespace bst;
+
+// template <typename K, typename V, typename comparator>
+// using Bst = bst<K, V, comparator>;
+
+
 template <typename K, typename V, typename comparator>
-bst<K, V, comparator>::bst(node &root)
+bst<K, V, comparator>::bst(Node &root)
 {
     _root.reset(&root);
 }
@@ -18,22 +24,22 @@ bst<K, V, comparator>::bst(const bst &b)
     }
     else
     {
-        _root.reset(new node(b._root->_pair));
+        _root.reset(new Node(b._root->_pair));
         copy(_root.get(), b._root.get());
     }
 }
 
 template <typename K, typename V, typename comparator>
-void bst<K, V, comparator>::copy(node *n, node *m)
+void bst<K, V, comparator>::copy(Node *n, Node *m)
 {
     if (m->_right != nullptr)
     {
-        n->_right.reset(new node(n, m->_right->_pair));
+        n->_right.reset(new Node(n, m->_right->_pair));
         copy(n->_right.get(), m->_right.get());
     }
     if (m->_left != nullptr)
     {
-        n->_left.reset(new node(n, m->_left->_pair));
+        n->_left.reset(new Node(n, m->_left->_pair));
         copy(n->_left.get(), m->_left.get());
     }
 }
@@ -44,7 +50,7 @@ typename bst<K, V, comparator>::iterator bst<K, V, comparator>::begin() noexcept
     if (_root == nullptr)
         return iterator{nullptr};
 
-    node *current = _root.get();
+    Node *current = _root.get();
     while (current->_left != nullptr)
         current = current->_left.get();
 
@@ -57,7 +63,7 @@ typename bst<K, V, comparator>::const_iterator bst<K, V, comparator>::begin() co
     if (_root == nullptr)
         return const_iterator{nullptr};
 
-    node *current = _root.get();
+    Node *current = _root.get();
     while (current->_left != nullptr)
         current = current->_left.get();
 
@@ -73,10 +79,10 @@ typename bst<K, V, comparator>::const_iterator bst<K, V, comparator>::end() cons
 template <typename K, typename V, typename comparator>
 std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>::insert(const std::pair<const K, V> &x)
 {
-    node *current = _root.get();
+    Node *current = _root.get();
     if (current == nullptr)
     {
-        _root.reset(new node(x));
+        _root.reset(new Node(x));
         return std::make_pair(iterator{_root.get()}, true);
     }
     else
@@ -91,7 +97,7 @@ std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>:
             {
                 if (current->_left == nullptr)
                 {
-                    current->_left.reset(new node(x));
+                    current->_left.reset(new Node(x));
                     current->_left->_parent = current;
                     return std::make_pair(iterator{current->_left.get()}, true);
                 }
@@ -101,7 +107,7 @@ std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>:
             { //current->_key < x.first
                 if (current->_right == nullptr)
                 {
-                    current->_right.reset(new node(x));
+                    current->_right.reset(new Node(x));
                     current->_right->_parent = current;
                     return std::make_pair(iterator{current->_right.get()}, true);
                 }
@@ -115,10 +121,10 @@ std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>:
 template <typename K, typename V, typename comparator>
 std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>::insert(std::pair<const K, V> &&x)
 {
-    node *current = _root.get();
+    Node *current = _root.get();
     if (current == nullptr)
     {
-        _root.reset(new node(x));
+        _root.reset(new Node(x));
         return std::make_pair(iterator{_root.get()}, true);
     }
     else
@@ -133,7 +139,7 @@ std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>:
             {
                 if (current->_left == nullptr)
                 {
-                    current->_left.reset(new node(x));
+                    current->_left.reset(new Node(x));
                     current->_left->_parent = current;
                     return std::make_pair(iterator{current->_left.get()}, true);
                 }
@@ -143,7 +149,7 @@ std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>:
             { //current->_key < x.first
                 if (current->_right == nullptr)
                 {
-                    current->_right.reset(new node(x));
+                    current->_right.reset(new Node(x));
                     current->_right->_parent = current;
                     return std::make_pair(iterator{current->_right.get()}, true);
                 }
@@ -177,7 +183,7 @@ void bst<K, V, comparator>::erase_root()
     }
     else //the root has both right child and left child
     {
-        node *rightest_child = _root->_left.get();
+        Node *rightest_child = _root->_left.get();
         while (rightest_child->_right != nullptr)
             rightest_child = rightest_child->_right.get();
         rightest_child->_right.reset(_root->_right.get());
@@ -251,7 +257,7 @@ void bst<K, V, comparator>::erase(const K &x)
         //the node has two child and it is the right child of parent
         if (it.current->_right != nullptr && it.current->_left != nullptr && it.current == it.current->_parent->_right.get())
         {
-            node *rightest_child = it.current->_left.get();
+            Node *rightest_child = it.current->_left.get();
 
             while (rightest_child->_right != nullptr)
                 rightest_child = rightest_child->_right.get();
@@ -273,7 +279,7 @@ void bst<K, V, comparator>::erase(const K &x)
             it.current->_parent->_left.swap(it.current->_left);
             it.current->_left.reset(nullptr); //TODO: memory leak if not present?
 
-            node *rightest_child = it.current->_left.get();
+            Node *rightest_child = it.current->_left.get();
 
             while (rightest_child->_right != nullptr)
                 rightest_child = rightest_child->_right.get();
