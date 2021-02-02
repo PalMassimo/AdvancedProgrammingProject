@@ -1,20 +1,5 @@
 #include "../include/bst.h"
 
-// template <typename K, typename V, typename comparator>
-// bst<K, V, comparator>::bst() { _root.reset(); }
-
-// using namespace bst;
-
-// template <typename K, typename V, typename comparator>
-// using Bst = bst<K, V, comparator>;
-
-
-template <typename K, typename V, typename comparator>
-bst<K, V, comparator>::bst(Node &root)
-{
-    _root.reset(&root);
-}
-
 template <typename K, typename V, typename comparator>
 bst<K, V, comparator>::bst(const bst &b)
 { //copy ctor - deepcopy
