@@ -28,10 +28,16 @@ using {\bfseries const\+\_\+iterator} = \mbox{\hyperlink{classbst_1_1__iterator}
 \mbox{\Hypertarget{classbst_acf11f5bbff1919dac9e17668188f21f8}\label{classbst_acf11f5bbff1919dac9e17668188f21f8}} 
 \mbox{\hyperlink{classbst_1_1__iterator}{const\+\_\+iterator}} {\bfseries begin} () const noexcept
 \item 
+\mbox{\Hypertarget{classbst_a71a6408c5af92c20d29d18016601ee68}\label{classbst_a71a6408c5af92c20d29d18016601ee68}} 
+\mbox{\hyperlink{classbst_1_1__iterator}{const\+\_\+iterator}} {\bfseries cbegin} () const noexcept
+\item 
 \mbox{\hyperlink{classbst_1_1__iterator}{iterator}} \mbox{\hyperlink{classbst_a4730f6051c9c785efa577de61615f083}{end}} () noexcept
 \item 
 \mbox{\Hypertarget{classbst_adacdeaadff52e914fc4ecf225cae0ac0}\label{classbst_adacdeaadff52e914fc4ecf225cae0ac0}} 
 \mbox{\hyperlink{classbst_1_1__iterator}{const\+\_\+iterator}} {\bfseries end} () const noexcept
+\item 
+\mbox{\Hypertarget{classbst_a0344d39b36b2619900da6eadb2c9f6b6}\label{classbst_a0344d39b36b2619900da6eadb2c9f6b6}} 
+\mbox{\hyperlink{classbst_1_1__iterator}{const\+\_\+iterator}} {\bfseries cend} () const noexcept
 \item 
 \mbox{\hyperlink{classbst_a67c116890901ad42fadaae82b728c47e}{bst}} ()=default
 \item 
@@ -55,6 +61,9 @@ std\+::pair$<$ \mbox{\hyperlink{classbst_1_1__iterator}{iterator}}, bool $>$ {\b
 \mbox{\Hypertarget{classbst_aeb6ac6e9cf15c2c90e4335c15f811517}\label{classbst_aeb6ac6e9cf15c2c90e4335c15f811517}} 
 \mbox{\hyperlink{classbst_1_1__iterator}{iterator}} {\bfseries find} (const K \&x)
 \item 
+\mbox{\Hypertarget{classbst_ab56bb9f7b37d20a4644bf9df5e546ef1}\label{classbst_ab56bb9f7b37d20a4644bf9df5e546ef1}} 
+\mbox{\hyperlink{classbst_1_1__iterator}{const\+\_\+iterator}} {\bfseries find} (const K \&x) const
+\item 
 \mbox{\Hypertarget{classbst_a46b262d726e7c3db4b09fdf54977aa11}\label{classbst_a46b262d726e7c3db4b09fdf54977aa11}} 
 void {\bfseries erase} (const K \&x)
 \item 
@@ -67,7 +76,13 @@ void {\bfseries clear} ()
 \item 
 V \& \mbox{\hyperlink{classbst_aa3b7120b1835c4df95226587010cc6d8}{operator\mbox{[}$\,$\mbox{]}}} (const K \&x)
 \item 
+\mbox{\Hypertarget{classbst_a5819806e219d361e1c5e54426bd5841f}\label{classbst_a5819806e219d361e1c5e54426bd5841f}} 
+V \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (K \&\&x)
+\item 
 void \mbox{\hyperlink{classbst_ac903f6935f897e8c38a81210caae0219}{balance}} ()
+\item 
+\mbox{\Hypertarget{classbst_a4fb3953e418c29ac506612226d9d9f9e}\label{classbst_a4fb3953e418c29ac506612226d9d9f9e}} 
+{\footnotesize template$<$class... Types$>$ }\\std\+::pair$<$ typename \mbox{\hyperlink{classbst}{bst}}$<$ K, V, comparator $>$\+::\mbox{\hyperlink{classbst_1_1__iterator}{iterator}}, bool $>$ {\bfseries emplace} (Types \&\&...args)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -79,7 +94,7 @@ comparator \mbox{\hyperlink{classbst_a745e4f9bd9c5a46448d371b7b99fdf94}{cmp}}
 \doxysubsection*{Friends}
 \begin{DoxyCompactItemize}
 \item 
-std\+::ostream \& \mbox{\hyperlink{classbst_ae4b7d69364fca0855f74abdcad674ebf}{operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{classbst}{bst}} \&x)
+std\+::ostream \& \mbox{\hyperlink{classbst_aae420cdf165667631018528701d112d9}{operator$<$$<$}} (std\+::ostream \&os, const \mbox{\hyperlink{classbst}{bst}}$<$ K, V, comparator $>$ \&x)
 \end{DoxyCompactItemize}
 
 
@@ -183,14 +198,14 @@ V\& \mbox{\hyperlink{classbst}{bst}}$<$ K, V, comparator $>$\+::operator\mbox{[}
 Subscripting operator. 
 
 \doxysubsection{Friends And Related Function Documentation}
-\mbox{\Hypertarget{classbst_ae4b7d69364fca0855f74abdcad674ebf}\label{classbst_ae4b7d69364fca0855f74abdcad674ebf}} 
+\mbox{\Hypertarget{classbst_aae420cdf165667631018528701d112d9}\label{classbst_aae420cdf165667631018528701d112d9}} 
 \index{bst$<$ K, V, comparator $>$@{bst$<$ K, V, comparator $>$}!operator$<$$<$@{operator$<$$<$}}
 \index{operator$<$$<$@{operator$<$$<$}!bst$<$ K, V, comparator $>$@{bst$<$ K, V, comparator $>$}}
 \doxysubsubsection{\texorpdfstring{operator$<$$<$}{operator<<}}
 {\footnotesize\ttfamily template$<$typename K , typename V , typename comparator  = std\+::less$<$\+K$>$$>$ \\
 std\+::ostream\& operator$<$$<$ (\begin{DoxyParamCaption}\item[{std\+::ostream \&}]{os,  }\item[{const \mbox{\hyperlink{classbst}{bst}}$<$ K, V, comparator $>$ \&}]{x }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
 
-Put to operator 
+put to operator overloading implemented 
 
 \doxysubsection{Member Data Documentation}
 \mbox{\Hypertarget{classbst_abc47f8d47854e61e830ff1506da125ae}\label{classbst_abc47f8d47854e61e830ff1506da125ae}} 
