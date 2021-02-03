@@ -4,7 +4,6 @@ dictionary = {"a": [1, 2, 3], "b": [45, 6], "c": [2, 45]}
 print("The original dictionary is ", dictionary)
 
 rd = dict()
-my_set = set()
 
 for elem in set([value for values_list in dictionary.values() for value in values_list]):
 	rd[elem] = [key for key, value in dictionary.items() for list_elem in value if elem == list_elem]
