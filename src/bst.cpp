@@ -133,7 +133,7 @@ std::pair<typename bst<K, V, comparator>::iterator, bool> bst<K, V, comparator>:
     {
         while (current != nullptr)
         {
-            if (!op(current->_pair.first, x.first) && !op(x.first, current->_pair.first))
+            if (!cmp(current->_pair.first, x.first) && !cmp(x.first, current->_pair.first))
             {
                 return std::make_pair(iterator{current}, false);
             }
