@@ -1,12 +1,14 @@
 import pytest
 
-def reverse_dict(d):
-    rd = dict()
+import reverse_module
 
-    for elem in set([value for values_list in d.values() for value in values_list]):
-	    rd[elem] = list(set([key for key, value in d.items() for list_elem in value if elem == list_elem]))
+# def reverse_dict(d):
+#     rd = dict()
 
-    return rd
+#     for elem in set([value for values_list in d.values() for value in values_list]):
+# 	    rd[elem] = list(set([key for key, value in d.items() for list_elem in value if elem == list_elem]))
+
+#     return rd
 
 
 def test_reverse_small_dict():
@@ -14,7 +16,7 @@ def test_reverse_small_dict():
 
     rd = {1: ["a"], 2: ["a", "c"], 3: ["a"], 6: ["b"], 45: ["b", "c"]}
 
-    rd = reverse_dict(d)
+    rd = reverse_module.reverse_dictionary(d)
 
     assert len(rd) == 5
 
@@ -56,7 +58,7 @@ def big_dict():
 
 def test_reverse_big_dict(big_dict):
 
-    rd = reverse_dict(big_dict)
+    rd = reverse_module.reverse_dictionary(big_dict)
 
     assert 'A24' in rd[1]
     assert 'A25' not in rd[1]
