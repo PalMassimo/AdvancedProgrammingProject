@@ -1,3 +1,5 @@
 .vscode
 *.out
 exam_cpp.md
+/Python/.pytest_cache
+/Python/__pycache__
