@@ -16,7 +16,7 @@ The final project consists of two parts:
 It is an implementation of a templated binary search tree with each node having a key and a value.
 
 <p align="center">
-<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/Screenshots/Bst.png" alt="binary search tree" height="200" length="200"/>
+<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main/Screenshots/Bst.png" alt="binary search tree"/>
 </p>
 
 To compile the project move to the `C++` folder and run `make` ,
@@ -59,9 +59,9 @@ For some functions there are also the const version.
 ## Python Script
 
 A python algorithm that given a dictionary it computes the reversed one, as follows:
-
 <p align="center">
-<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/Screenshots/Dictionary.png" alt="binary search tree" height="200" length="200"/>
+<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main//Screenshots/Dictionary.png" alt="from dictionary to reversed"/>
 </p>
-
+  
+  
 First, to remove duplications, it puts the dictionary values in a set and then it construct the reverse dictionary by picking the keys from the set and for each one it finds the relative values by iterating in the original dictionary. 
