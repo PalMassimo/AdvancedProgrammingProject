@@ -39,18 +39,23 @@ It implements some functionalities that allow to search through and to modify it
 - **end**
     Returns an iterator to the last past node, practically a *nullptr*.
 
-- **find**: 
+- **find** 
     Returns an iterator pointing the searched node. To find the node it performs 
 
-- **balance**: balance the tree
+- **balance** 
+     balance the tree
 
-- **erase**: delete a node from the tree
+- **erase**
+     delete a node from the tree
 
-- **clear**: clear the tree content
+- **clear**
+     clear the tree content
 
-- **subscripting operator**: returns the value associated with the given key
+- **subscripting operator**
+     returns the value associated with the given key
 
-- **put-to operator**: print the tree keys in an ascending order
+- **put-to operator**
+     print the tree keys in an ascending order
 
 For some functions there are also the const version.
 
