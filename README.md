@@ -1,28 +1,46 @@
 # Advanced Programming Project
+
 This repository contains the final project for the [Advanced Programming](https://github.com/asartori86/advanced_programming_2020) course 2020-2021 at [University of Trieste](https://units.it).
 
 The final project consists of two parts:
-- a C++ project
-- a Python script
+
+- [a C++ project](#C++-project)
+- [a Python script](#python-scirpt)
 
 ---
 
 ## C++ Project
-It is an implementation of a template binary search tree with each node having a key and a value.
 
-<img src="https://miro.medium.com/max/875/1*S9O9sNJQkfwFbtaji9e25w.png" alt="binary search tree" height="200" length="200" style="margin-right: auto; margin-left: auto; display: block;"/>
+### Overview
 
-It implements the following functions:
+It is an implementation of a templated binary search tree with each node having a key and a value.
 
-- **insert**: create a new node in the correct position, according on his key
+<p align="center">
+<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/Screenshots/Bst.png" alt="binary search tree" height="200" length="200"/>
+</p>
 
-- **emplace**: create a new element into the container constructed in-place with the given args if there is no element with the key in the container
+To compile the project move to the `C++` folder and run `make` ,
+which will create the executable files in the `src` and in `benchmark` folders. The first is the main project while the other is used to test the performances of the most relevant functionalities.
 
-- **begin**: returns an iterator to the node with the lowest key
+### Functionalities
 
-- **end**: returns an iterator to the last past node
+It implements some functionalities that allow to search through and to modify its structure:
 
-- **find**: returns an iterator pointing the searched node
+- **insert**
+
+     Creates a new node in the correct position, according to his key. Starting from the root node it goes left or right depending if the target key is smaller or greater then the current node's key and then repeats the procedure until there are no further nodes. At that point it appends the new node and returns iterator pointing to it and a boolean set to true. If the target key already exists it abort returning a iterator pointing to *end()* and a false boolean.
+
+- **emplace**  
+    Conceptually same as *insert* but it defers in the implementation. Instead of receiving a pair of values *{key, value}* it takes raw values.
+
+- **begin**
+    Returns an iterator pointing to the node with the lowest key, which is the leftest node of the tree.
+
+- **end**
+    Returns an iterator to the last past node, practically a *nullptr*.
+
+- **find**: 
+    Returns an iterator pointing the searched node. To find the node it performs 
 
 - **balance**: balance the tree
 
@@ -32,13 +50,18 @@ It implements the following functions:
 
 - **subscripting operator**: returns the value associated with the given key
 
-- **put-to operator**: print the tree keys in an ascending order  
+- **put-to operator**: print the tree keys in an ascending order
+
+For some functions there are also the const version.
 
 ---
 
 ## Python Script
-A python algorithm that given a dictionary it computes the reversed one, as follows: 
 
-`dictionary  = {"a": [1, 2, 3], "b": [45, 6], "c": [2, 45]}`
+A python algorithm that given a dictionary it computes the reversed one, as follows:
 
-`reverse_dictionary = {1: ["a"], 2: ["a", "c"], 3: ["a"], 6: ["b"], 45:["b", "c"]}`
+<p align="center">
+<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/Screenshots/Dictionary.png" alt="binary search tree" height="200" length="200"/>
+</p>
+
+First, to remove duplications, it puts the dictionary values in a set and then it construct the reverse dictionary by picking the keys from the set and for each one it finds the relative values by iterating in the original dictionary. 
