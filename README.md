@@ -82,3 +82,12 @@ A python algorithm that given a dictionary it computes the reversed one, as foll
   
   
 First, to remove duplications, it puts the dictionary values in a set and then it construct the reverse dictionary by picking the keys from the set and for each one it finds the relative values by iterating in the original dictionary. 
+
+---
+
+### Contributors
+
+- [Massimo Palmisano](https://github.com/PalMassimo)
+- [Tibor Racman](https://github.com/RacmanT)
+
+---
