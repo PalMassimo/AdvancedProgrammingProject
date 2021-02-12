@@ -4,8 +4,11 @@ This repository contains the final project for the [Advanced Programming](https:
 
 The final project consists of two parts:
 
-- [a C++ project](#C++-project)
-- [a Python script](#python-scirpt)
+- [a C++ project](#c-project)
+     - [Overview](#overview)
+     - [Functionalities](#functionalities)
+     - [Benchmark](#benchmark)
+- [a Python script](#python-script)
 
 ---
 
@@ -13,14 +16,14 @@ The final project consists of two parts:
 
 ### Overview
 
-It is an implementation of a templated binary search tree with each node having a key and a value.
+It is an implementation of a templated binary search tree, where each node has a key and a value.
 
 <p align="center">
 <img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main/Screenshots/Bst.png" alt="binary search tree"/>
 </p>
 
 To compile the project move to the `C++` folder and run `make` ,
-which will create the executable files in the `src` and in `benchmark` folders. The first is the main project while the other is used to test the performances of the most relevant functionalities.
+which will create the executable files in the `src` and in `benchmark` folders. The first is the main project while the other is used to test the performance of the most relevant functionalities.
 
 ### Functionalities
 
@@ -28,34 +31,34 @@ It implements some functionalities that allow to search through and to modify it
 
 - **insert**
 
-     Creates a new node in the correct position, according to his key. Starting from the root node it goes left or right depending if the target key is smaller or greater then the current node's key and then repeats the procedure until there are no further nodes. At that point it appends the new node and returns iterator pointing to it and a boolean set to true. If the target key already exists it abort returning a iterator pointing to *end()* and a false boolean.
+     Creates a new node in the correct position, according to his key. Starting from the root node it goes left or right depending if the target key is smaller or greater then the current node's key and then repeats the procedure until there are no further nodes. At that point it appends the new node and returns an iterator pointing to it and a boolean set to true. If the target key already exists it returns an iterator pointing to `nullptr` and false.
 
 - **emplace**  
-    Conceptually same as *insert* but it defers in the implementation. Instead of receiving a pair of values *{key, value}* it takes raw values.
+    Conceptually same as `insert` but it differs in the implementation. Instead of receiving a pair `{key, value}` it takes raw values.
 
-- **begin**
+- **begin**  
     Returns an iterator pointing to the node with the lowest key, which is the leftest node of the tree.
 
-- **end**
-    Returns an iterator to the last past node, practically a *nullptr*.
+- **end**  
+    Returns an iterator to the last past node, that is a `nullptr`.
 
-- **find** 
-    Returns an iterator pointing the searched node. To find the node it performs 
+- **find**   
+    Given a key, it returns an iterator pointing to the searched node if exists, otherwise an iterator pointing to `nullptr`. To find the node it iterates through the tree.   
 
 - **balance** 
      balance the tree
 
-- **erase**
-     delete a node from the tree
+- **erase**  
+     Given a key, it deletes a node from the tree. In order to maintain the bst structure it reshapes the tree, according to the position of the deleted node.
 
-- **clear**
-     clear the tree content
+- **clear**  
+     Iterating through the tree it calls `erase()` on every encountered node
 
-- **subscripting operator**
-     returns the value associated with the given key
+- **subscripting operator**  
+     Implements `find()` using the subscripting operator
 
-- **put-to operator**
-     print the tree keys in an ascending order
+- **put-to operator**  
+     Iterating step by step through the tree it prints every key in an ascending order 
 
 For some functions there are also the const version.
 
