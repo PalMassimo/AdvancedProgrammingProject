@@ -66,9 +66,9 @@ For some functions there are also the `const` version.
 We have evaluated the performance of the computational heavier functions that are `clear` and `balance`. In order to do so we have tested this functions on many trees having different number of nodes: `10`, `100`, `1000`, `10000`, `100000`. In order to reinforce the statistics we have initialized each tree with random values and every test was performed `100` times, taking the avarage result. Plots are given in logarithmic scale.
 
 <p align="center">
-<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main/Screenshots/Balance.jpg" alt="balance benchmark graph"/>
+<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main/Screenshots/Balance.jpg" alt="balance benchmark graph" width="70%"/>
 
-<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main/Screenshots/Clear.jpg" alt="clear benchmark graph"/>
+<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main/Screenshots/Clear.jpg" alt="clear benchmark graph" width="70%"/>
 </p>
 
 ---
