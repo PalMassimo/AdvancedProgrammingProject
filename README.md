@@ -45,8 +45,8 @@ It implements some functionalities that allow to search through and to modify it
 - **find**   
     Given a key, it returns an iterator pointing to the searched node if exists, otherwise an iterator pointing to `nullptr`. To find the node it iterates through the tree.   
 
-- **balance** 
-     balance the tree
+- **balance**   
+     The content of the nodes are stored in a temporary memory and a call to `clear()` on the tree is performed. Then the tree is repopulated in a balanced way, such that it has the lowest height. To achive this, a recursive function is called taking into account the temporary memory.
 
 - **erase**  
      Given a key, it deletes a node from the tree. In order to maintain the bst structure it reshapes the tree, according to the position of the deleted node.
