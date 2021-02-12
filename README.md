@@ -22,15 +22,14 @@ It is an implementation of a templated binary search tree, where each node has a
 <img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main/Screenshots/Bst.png" alt="binary search tree"/>
 </p>
 
-To compile the project move to the `C++` folder and run `make` ,
-which will create the executable files in the `src` and in `benchmark` folders. The first is the main project while the other is used to test the performance of the most relevant functionalities.
+To compile the project move to the `C++` folder and run `make`,
+which will create the executable files, one in the `src` folder, the other in the `benchmark` folder. The first executable is the main project, which run the implemented functions, while the other is used to evaluate the performance of some functionalities.
 
 ### Functionalities
 
 It implements some functionalities that allow to search through and to modify its structure:
 
-- **insert**
-
+- **insert**  
      Creates a new node in the correct position, according to his key. Starting from the root node it goes left or right depending if the target key is smaller or greater then the current node's key and then repeats the procedure until there are no further nodes. At that point it appends the new node and returns an iterator pointing to it and a boolean set to true. If the target key already exists it returns an iterator pointing to `nullptr` and false.
 
 - **emplace**  
@@ -60,7 +59,17 @@ It implements some functionalities that allow to search through and to modify it
 - **put-to operator**  
      Iterating step by step through the tree it prints every key in an ascending order 
 
-For some functions there are also the const version.
+For some functions there are also the `const` version.
+
+### Benchmark  
+
+We have evaluated the performance of the computational heavier functions that are `clear` and `balance`. In order to do so we have tested this functions on many trees having different number of nodes: `10`, `100`, `1000`, `10000`, `100000`. In order to reinforce the statistics we have initialized each tree with random values and every test was performed `100` times, taking the avarage result. Plots are given in logarithmic scale.
+
+<p align="center">
+<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main/Screenshots/Balance.png" alt="balance benchmark graph"/>
+
+<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main/Screenshots/Clear.png" alt="clear benchmark graph"/>
+</p>
 
 ---
 
@@ -68,7 +77,7 @@ For some functions there are also the const version.
 
 A python algorithm that given a dictionary it computes the reversed one, as follows:
 <p align="center">
-<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main//Screenshots/Dictionary.png" alt="from dictionary to reversed"/>
+<img src="https://github.com/PalMassimo/AdvancedProgrammingProject/blob/main/Screenshots/Dictionary.png" alt="from dictionary to reversed"/>
 </p>
   
   

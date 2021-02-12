@@ -1,15 +1,23 @@
 CXX = g++
-CXXFLAGS = -Wall -Werror -Wextra -pedantic -std=c++17 -g -fsanitize=address
-LDFLAGS =  -fsanitize=address
+CXXFLAGS = -Wall -Werror -Wextra -g -std=c++17 
 
-SRC = src/source.cpp 
-OBJ = $(SRC:.cc=.o)
-EXEC = $(SRC:.cpp=.x)
+SRC = src/source.cpp \
+	  benchmark/benchmark.cpp
+EXE = $(SRC:.cpp=.x)
 
-all: $(EXEC)
+all: $(EXE)
 
-$(EXEC): $(OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ $(OBJ) $(LBLIBS)
+.PHONY: all
+
+%.x: %.cpp 
+	$(CXX) $< -o $@ $(CXXFLAGS)
+
+format: $(SRC)
+	@clang-format -i $^ -verbose || echo "Please install clang-format to run this command"
+
+.PHONY: format
 
 clean:
-	rm -rf $(OBJ) $(EXEC)
+	rm -f $(EXE) *~
+
+.PHONY: clean

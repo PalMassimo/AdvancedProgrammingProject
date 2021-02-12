@@ -1,13 +1,15 @@
 #include <chrono>
 #include <random>
 #include <vector>
+#include <array>
 #include <algorithm>
 
 #include "../include/bst.hpp"
 #include "../src/bst.cpp"
 #include "../include/iterator.hpp"
 
-#define MAX_NODES 100000
+#define FACTOR 10
+#define TREE_NUMBERS 4
 #define TEST_ITERATIONS 100
 std::random_device rd;
 
@@ -15,36 +17,31 @@ void populate_tree(bst<int, int> &tree, std::size_t size);
 unsigned long long clear_test(bst<int, int> &tree, std::size_t size);
 unsigned long long balance_test(bst<int, int> &tree, std::size_t size);
 
-
 int main()
 {
+    std::array<bst<int, int>, TREE_NUMBERS> trees{};
 
+    for (std::size_t i{}, j{10}; i < trees.size(); ++i, j *= FACTOR)
+    {
+        std::cout << "Tree with " << j << " nodes was balanced in ";
+        std::cout << balance_test(trees.at(i), j) << " microseconds \n";
+    }
 
-    bst<int, int> tree10{};
-    bst<int, int> tree100{};
-    bst<int, int> tree1000{};
-    bst<int, int> tree10000{};
-    bst<int, int> tree100000{};
-    bst<int, int> tree1000000{};
-    
-    std::cout << balance_test(tree10, 10) << std::endl;
-    std::cout << balance_test(tree100, 100) << std::endl;
-    std::cout << balance_test(tree1000, 1000) << std::endl;
-    std::cout << balance_test(tree10000, 10000) << std::endl;
-    std::cout << balance_test(tree100000, 100000) << std::endl;
+    std::cout << "\n";
 
-    std::cout << clear_test(tree10, 10) << std::endl;
-    std::cout << clear_test(tree100, 100) << std::endl;
-    std::cout << clear_test(tree1000, 1000) << std::endl;
-    std::cout << clear_test(tree10000, 10000) << std::endl;
-    std::cout << clear_test(tree100000, 100000) << std::endl;
+    for (std::size_t i{}, j{10}; i < trees.size(); ++i, j *= FACTOR)
+    {
+        std::cout << "Tree with " << j << " nodes was cleaned in ";
+        std::cout << clear_test(trees.at(i), j) << " microseconds \n";
+    }
 
+    std::cout << std::endl;
 }
 
 unsigned long long clear_test(bst<int, int> &tree, std::size_t size)
 {
-    auto counter = 0;
-    for (std::size_t i = 0; i < TEST_ITERATIONS; ++i)
+    long counter{};
+    for (std::size_t i{}; i < TEST_ITERATIONS; ++i)
     {
         populate_tree(tree, size);
         auto t0 = std::chrono::high_resolution_clock::now();
@@ -57,8 +54,8 @@ unsigned long long clear_test(bst<int, int> &tree, std::size_t size)
 
 unsigned long long balance_test(bst<int, int> &tree, std::size_t size)
 {
-    auto counter = 0;
-    for (std::size_t i = 0; i < TEST_ITERATIONS; ++i)
+    long counter{};
+    for (std::size_t i{}; i < TEST_ITERATIONS; ++i)
     {
         populate_tree(tree, size);
         auto t0 = std::chrono::high_resolution_clock::now();
@@ -73,7 +70,7 @@ void populate_tree(bst<int, int> &tree, std::size_t size)
 {
     std::vector<std::pair<int, int>> values{};
 
-    for (std::size_t i = 0; i < size; ++i)
+    for (std::size_t i{}; i < size; ++i)
     {
         values.push_back({i, i});
     }

@@ -167,7 +167,7 @@ public:
 	/**
 	 * subscripting operator overloading, taking r-value
 	*/
-	V &operator[](K &&x) { return find(x).current->_pair.second; }
+	V &operator[](K &&x) { return find(x)._current->_pair.second; }
 
 	/**
 	 * balance the tree
